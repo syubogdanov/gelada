@@ -3,6 +3,7 @@
 </h2>
 
 <p align="center">
+    <img src="https://img.shields.io/badge/Version-0.0--alpha-green">
     <img src="https://img.shields.io/badge/License-Apache--2.0-green">
 </p>
 
