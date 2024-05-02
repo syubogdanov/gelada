@@ -1,2 +1,8 @@
+# Bazel
+bazel-bin/
+bazel-gelada/
+bazel-out/
+bazel-testlogs/
+
 # Visual Studio Code
 .vscode/
