@@ -1,0 +1,11 @@
+cc_library(
+    name = "python",
+    srcs = glob([
+        "**/*.dylib",
+        "**/*.lib",
+        "**/*.so",
+    ]),
+    hdrs = glob(["**/*.h"]),
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+)
