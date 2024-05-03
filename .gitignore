@@ -4,5 +4,11 @@ bazel-gelada/
 bazel-out/
 bazel-testlogs/
 
+# Bzlmod
+MODULE.bazel.lock
+
+# Gelada
+third_party/python/
+
 # Visual Studio Code
 .vscode/
