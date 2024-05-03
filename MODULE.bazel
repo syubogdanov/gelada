@@ -30,9 +30,14 @@ bazel_dep(
     name = "rules_cc",
     version = "0.0.9",
 )
-
 bazel_dep(name = "python")
 local_path_override(
     module_name = "python",
     path = "third_party/python",
+)
+
+bazel_dep(name = "pybind11")
+local_path_override(
+    module_name = "pybind11",
+    path = "third_party/pybind11",
 )
