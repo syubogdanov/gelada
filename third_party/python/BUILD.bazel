@@ -25,26 +25,9 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "python",
-    srcs = glob([
-        "**/*.dylib",
-        "**/*.lib",
-        "**/*.so",
-    ]),
-    hdrs = glob([
-        "**/*.c",
-        "**/*.cc",
-        "**/*.cpp",
-        "**/*.cxx",
-        "**/*.c++",
-        "**/*.C",
-        "**/*.h",
-        "**/*.hh",
-        "**/*.hpp",
-        "**/*.hxx",
-        "**/*.inc",
-        "**/*.inl",
-        "**/*.H",
-    ]),
-    includes = ["include"],
     visibility = ["//visibility:public"],
+    deps = [
+        "@rules_python//python/cc:current_py_cc_headers",
+        "@rules_python//python/cc:current_py_cc_libs",
+    ],
 )
