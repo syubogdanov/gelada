@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/badge/Version-0.0--alpha-green">
     <img src="https://img.shields.io/badge/Bazel-7.1+-green">
     <img src="https://img.shields.io/badge/С++-20+-green">
-    <img src="https://img.shields.io/badge/Python-3.9+-green">
+    <img src="https://img.shields.io/badge/Python-3.12-green">
     <img src="https://img.shields.io/badge/License-Apache--2.0-green">
 </p>
 

@@ -41,3 +41,14 @@ local_path_override(
     module_name = "pybind11",
     path = "third_party/pybind11",
 )
+
+bazel_dep(
+    name = "rules_python",
+    version = "0.31.0",
+)
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    ignore_root_user_error = True,
+    python_version = "3.12",
+)
