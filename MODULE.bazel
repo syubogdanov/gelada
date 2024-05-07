@@ -27,6 +27,10 @@ module(
 )
 
 bazel_dep(
+    name = "curl",
+    version = "8.7.1",
+)
+bazel_dep(
     name = "pybind11_bazel",
     version = "2.12.0",
 )
