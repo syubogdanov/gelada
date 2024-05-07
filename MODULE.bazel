@@ -34,12 +34,6 @@ bazel_dep(
     name = "rules_python",
     version = "0.31.0",
 )
-bazel_dep(name = "levenshtein")
-local_path_override(
-    module_name = "levenshtein",
-    path = "third_party/levenshtein",
-)
-
 bazel_dep(name = "pybind11")
 local_path_override(
     module_name = "pybind11",
@@ -50,6 +44,15 @@ bazel_dep(name = "stdlib")
 local_path_override(
     module_name = "stdlib",
     path = "third_party/stdlib",
+)
+
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "levenshtein",
+    integrity = "sha256-IEYUZteSeueYIfyrHwcTYiJww0un2bWCU5e8diP9xyY=",
+    strip_prefix = "levenshtein-2.0",
+    url = "https://github.com/syubogdanov/levenshtein/archive/refs/tags/v2.0.zip",
 )
 
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
