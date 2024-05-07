@@ -24,8 +24,8 @@ limitations under the License.
 load("@pybind11_bazel//:build_defs.bzl", "pybind_library")
 
 pybind_library(
-    name = "requests",
-    srcs = ["requests.cpp"],
-    hdrs = ["requests.hpp"],
+    name = "request",
+    srcs = ["request.cpp"],
+    hdrs = ["request.hpp"],
     visibility = ["//visibility:public"],
 )

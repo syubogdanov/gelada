@@ -20,3 +20,27 @@
 // limitations under the License.
 
 #include "lib/urllib/request/request.hpp"
+
+#include <exception>
+#include <format>
+#include <stdexcept>
+
+#include <pybind11/embed.h>
+
+namespace py = pybind11;
+
+std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
+    py::scoped_interpreter python;
+
+    auto module = py::module::import("urllib.request");
+    auto download = module.attr("urlretrieve");
+
+    try {
+        py::tuple response = download(url);
+        return response[0].cast<std::string>();
+
+    } catch (const std::exception& exc) {
+        auto detail = std::format("Failed to download the file. Reason: {}", exc.what());
+        throw std::runtime_error(detail);
+    }
+}

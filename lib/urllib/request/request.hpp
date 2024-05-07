@@ -19,19 +19,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LIB_REQUESTS_REQUESTS_HPP_
-#define LIB_REQUESTS_REQUESTS_HPP_
+#ifndef LIB_URLLIB_REQUEST_REQUEST_HPP_
+#define LIB_URLLIB_REQUEST_REQUEST_HPP_
 
-namespace requests {
+#include <filesystem>
 
-class Pool {
- public:
-    //
+namespace urllib::request {
 
- private:
-    //
-};
+std::filesystem::path urlretrieve(const std::string& url);
 
-}  // namespace requests
+}  // namespace urllib::request
 
-#endif  // LIB_REQUESTS_REQUESTS_HPP_
+#endif  // LIB_URLLIB_REQUEST_REQUEST_HPP_
