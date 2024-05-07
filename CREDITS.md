@@ -20,3 +20,8 @@
 [10]: https://github.com/pybind
 [11]: https://github.com
 [12]: https://github.com/pybind/pybind11/blob/master/LICENSE
+
+[13]: https://github.com/syubogdanov/levenshtein
+[14]: https://github.com/syubogdanov
+[15]: https://github.com
+[16]: https://github.com/syubogdanov/levenshtein/blob/trunk/LICENSE
