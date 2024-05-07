@@ -19,17 +19,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LIB_THREADING_TEMPFILE_TEMPFILE_HPP_
-#define LIB_THREADING_TEMPFILE_TEMPFILE_HPP_
-
-#include <filesystem>
-
-namespace threading::tempfile {
-
-std::filesystem::path mkdtemp(void);
-
-std::filesystem::path mkstemp(void);
-
-}  // namespace threading::tempfile
-
-#endif  // LIB_THREADING_TEMPFILE_TEMPFILE_HPP_
+#include "lib/urllib/request/request.hpp"

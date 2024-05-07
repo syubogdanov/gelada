@@ -19,17 +19,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LIB_THREADING_TEMPFILE_TEMPFILE_HPP_
-#define LIB_THREADING_TEMPFILE_TEMPFILE_HPP_
+#ifndef LIB_REQUESTS_REQUESTS_HPP_
+#define LIB_REQUESTS_REQUESTS_HPP_
 
-#include <filesystem>
+namespace requests {
 
-namespace threading::tempfile {
+class Pool {
+ public:
+    //
 
-std::filesystem::path mkdtemp(void);
+ private:
+    //
+};
 
-std::filesystem::path mkstemp(void);
+}  // namespace requests
 
-}  // namespace threading::tempfile
-
-#endif  // LIB_THREADING_TEMPFILE_TEMPFILE_HPP_
+#endif  // LIB_REQUESTS_REQUESTS_HPP_
