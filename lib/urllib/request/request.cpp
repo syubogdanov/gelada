@@ -40,7 +40,7 @@ std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
         return response[0].cast<std::string>();
 
     } catch (const std::exception& exc) {
-        auto detail = std::format("Failed to download the file. Reason: {}", exc.what());
+        auto detail = std::format("Failed to download a file using the URL={}", url);
         throw std::runtime_error(detail);
     }
 }
