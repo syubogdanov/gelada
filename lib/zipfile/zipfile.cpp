@@ -45,10 +45,10 @@ bool zipfile::is_zipfile(const std::filesystem::path& path) {
     py::scoped_interpreter python;
 
     auto module = py::module::import("zipfile");
-    auto check = module.attr("is_zipfile");
+    auto is_ok = module.attr("is_zipfile");
 
     try {
-        return check(path.string()).cast<bool>();
+        return is_ok(path.string()).cast<bool>();
 
     } catch (const std::exception& exc) {
         auto detail = std::format("An unexpected error happened: {}", exc.what());
