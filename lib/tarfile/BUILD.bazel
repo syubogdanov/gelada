@@ -27,6 +27,9 @@ pybind_library(
     name = "tarfile",
     srcs = ["tarfile.cpp"],
     hdrs = ["tarfile.hpp"],
-    deps = ["//lib/tempfile"],
+    deps = [
+        "//lib/tempfile",
+        "@rules_python//cc:current_py_cc_headers",
+    ],
     visibility = ["//visibility:public"],
 )

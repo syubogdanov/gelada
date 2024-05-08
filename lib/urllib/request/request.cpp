@@ -19,6 +19,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include "lib/urllib/request/request.hpp"
 
 #include <exception>
@@ -32,12 +35,15 @@
 namespace py = pybind11;
 
 std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
+    if (!Py_IsInitialized()) {
+        auto detail = "The Python interpreter is not initialized";
+        throw std::runtime_error(detail);
+    }
+
     if (url.empty()) {
         auto detail = "The URL must be non-empty";
         throw std::runtime_error(detail);
     }
-
-    py::scoped_interpreter python;
 
     auto module = py::module::import("urllib.request");
     auto download = module.attr("urlretrieve");

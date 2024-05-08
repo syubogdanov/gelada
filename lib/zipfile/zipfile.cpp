@@ -19,6 +19,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include "lib/zipfile/zipfile.hpp"
 
 #include <exception>
@@ -32,6 +35,11 @@
 namespace py = pybind11;
 
 bool zipfile::is_zipfile(const std::filesystem::path& path) {
+    if (!Py_IsInitialized()) {
+        auto detail = "The Python interpreter is not initialized";
+        throw std::runtime_error(detail);
+    }
+
     if (!std::filesystem::exists(path)) {
         auto detail = std::format("The path={} does not exist", path.string());
         throw std::runtime_error(detail);
@@ -41,8 +49,6 @@ bool zipfile::is_zipfile(const std::filesystem::path& path) {
         auto detail = std::format("The path={} is not a regular file", path.string());
         throw std::runtime_error(detail);
     }
-
-    py::scoped_interpreter python;
 
     auto module = py::module::import("zipfile");
     auto is_ok = module.attr("is_zipfile");
@@ -57,6 +63,11 @@ bool zipfile::is_zipfile(const std::filesystem::path& path) {
 }
 
 std::filesystem::path zipfile::extract(const std::filesystem::path& path) {
+    if (!Py_IsInitialized()) {
+        auto detail = "The Python interpreter is not initialized";
+        throw std::runtime_error(detail);
+    }
+
     if (!std::filesystem::exists(path)) {
         auto detail = std::format("The path={} does not exist", path.string());
         throw std::runtime_error(detail);
@@ -66,8 +77,6 @@ std::filesystem::path zipfile::extract(const std::filesystem::path& path) {
         auto detail = std::format("The path={} is not a regular file", path.string());
         throw std::runtime_error(detail);
     }
-
-    py::scoped_interpreter python;
 
     auto module = py::module::import("zipfile");
     auto extractor = module.attr("ZipFile")(path.string());
