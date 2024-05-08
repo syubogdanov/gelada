@@ -27,6 +27,7 @@
 #include <exception>
 #include <format>
 #include <stdexcept>
+#include <string>
 
 #include <pybind11/embed.h>
 
@@ -55,8 +56,8 @@ bool tarfile::is_tarfile(const std::filesystem::path& path) {
 
     try {
         return is_ok(path.string()).cast<bool>();
-
-    } catch (const std::exception& exc) {
+    }
+    catch (const std::exception& exc) {
         auto detail = std::format("An unexpected error happened: {}", exc.what());
         throw std::runtime_error(detail);
     }
@@ -86,8 +87,8 @@ std::filesystem::path tarfile::extract(const std::filesystem::path& path) {
     try {
         auto ctx = descriptor.attr("__enter__")();
         ctx.attr("extractall")(destination.string());
-
-    } catch (const std::exception& exc) {
+    }
+    catch (const std::exception& exc) {
         descriptor.attr("__exit__")(py::none(), py::none(), py::none());
         std::filesystem::remove_all(destination);
 

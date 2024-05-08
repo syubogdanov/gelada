@@ -23,6 +23,7 @@
 #define LIB_URLLIB_REQUEST_REQUEST_HPP_
 
 #include <filesystem>
+#include <string>
 
 namespace urllib::request {
 

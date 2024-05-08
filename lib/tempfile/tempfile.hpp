@@ -30,6 +30,6 @@ std::filesystem::path mkdtemp(void);
 
 std::filesystem::path mkstemp(void);
 
-}  // namespace threading::tempfile
+}  // namespace tempfile
 
 #endif  // LIB_TEMPFILE_TEMPFILE_HPP_

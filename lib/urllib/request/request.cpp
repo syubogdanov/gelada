@@ -27,6 +27,7 @@
 #include <exception>
 #include <format>
 #include <stdexcept>
+#include <string>
 
 #include <pybind11/embed.h>
 
@@ -53,8 +54,8 @@ std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
     try {
         py::tuple response = download(url, destination.string());
         return response[0].cast<std::string>();
-
-    } catch (const std::exception& exc) {
+    }
+    catch (const std::exception& exc) {
         std::filesystem::remove(destination);
 
         auto detail = std::format("Failed to download a file using the URL={}", url);

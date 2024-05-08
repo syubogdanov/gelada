@@ -39,7 +39,7 @@ bool ok(const std::string& username) {
     return true;  // TODO(syubogdanov): regex?
 }
 
-}  // __bitbucket::username
+}  // namespace __bitbucket::username
 
 namespace __bitbucket::repository {
 
@@ -47,7 +47,7 @@ bool ok(const std::string& repository) {
     return true;  // TODO(syubogdanov): regex?
 }
 
-}  // __bitbucket::repository
+}  // namespace __bitbucket::repository
 
 namespace __bitbucket::url {
 
@@ -59,7 +59,7 @@ std::string zip(const std::string& username, const std::string& repository) {
     return std::format("https://bitbucket.org/{}/{}/get/HEAD.zip", username, repository);
 }
 
-}  // __bitbucket::url
+}  // namespace __bitbucket::url
 
 namespace __bitbucket::download {
 
@@ -105,16 +105,14 @@ std::filesystem::path bitbucket::clone(const std::string& username, const std::s
     if (!__bitbucket::username::ok(username)) {
         auto detail = std::format(
             "The username={} does not meet the Bitbucket naming requirements",
-            username
-        );
+            username);
         throw std::runtime_error(detail);
     }
 
     if (!__bitbucket::repository::ok(username)) {
         auto detail = std::format(
             "The repository={} does not meet the Bitbucket naming requirements",
-            username
-        );
+            username);
         throw std::runtime_error(detail);
     }
 
@@ -123,7 +121,7 @@ std::filesystem::path bitbucket::clone(const std::string& username, const std::s
         __bitbucket::download::zip
     };
 
-    for (const auto& download: downloaders) {
+    for (const auto& download : downloaders) {
         try {
             return download(username, repository);
         }
@@ -133,7 +131,6 @@ std::filesystem::path bitbucket::clone(const std::string& username, const std::s
     auto detail = std::format(
         "Failed to clone the Bitbucket repository={}/{}",
         username,
-        repository
-    );
+        repository);
     throw std::runtime_error(detail);
 }

@@ -39,7 +39,7 @@ bool ok(const std::string& username) {
     return true;  // TODO(syubogdanov): regex?
 }
 
-}  // __github::username
+}  // namespace __github::username
 
 namespace __github::repository {
 
@@ -47,7 +47,7 @@ bool ok(const std::string& repository) {
     return true;  // TODO(syubogdanov): regex?
 }
 
-}  // __github::repository
+}  // namespace __github::repository
 
 namespace __github::url {
 
@@ -59,7 +59,7 @@ std::string zip(const std::string& username, const std::string& repository) {
     return std::format("https://api.github.com/repos/{}/{}/zipball", username, repository);
 }
 
-}  // __github::url
+}  // namespace __github::url
 
 namespace __github::download {
 
@@ -105,16 +105,14 @@ std::filesystem::path github::clone(const std::string& username, const std::stri
     if (!__github::username::ok(username)) {
         auto detail = std::format(
             "The username={} does not meet the GitHub naming requirements",
-            username
-        );
+            username);
         throw std::runtime_error(detail);
     }
 
     if (!__github::repository::ok(username)) {
         auto detail = std::format(
             "The repository={} does not meet the GitHub naming requirements",
-            username
-        );
+            username);
         throw std::runtime_error(detail);
     }
 
@@ -123,7 +121,7 @@ std::filesystem::path github::clone(const std::string& username, const std::stri
         __github::download::zip
     };
 
-    for (const auto& download: downloaders) {
+    for (const auto& download : downloaders) {
         try {
             return download(username, repository);
         }

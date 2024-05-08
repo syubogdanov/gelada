@@ -24,6 +24,7 @@
 #include <format>
 #include <iterator>
 #include <stdexcept>
+#include <string>
 
 std::size_t itertools::count::dirlist(const std::filesystem::path& directory) {
     if (!std::filesystem::exists(directory)) {
@@ -38,6 +39,5 @@ std::size_t itertools::count::dirlist(const std::filesystem::path& directory) {
 
     return std::distance(
         std::filesystem::directory_iterator(directory),
-        std::filesystem::directory_iterator{}
-    );
+        std::filesystem::directory_iterator{});
 }
