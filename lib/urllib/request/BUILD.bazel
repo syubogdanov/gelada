@@ -27,9 +27,6 @@ pybind_library(
     name = "request",
     srcs = ["request.cpp"],
     hdrs = ["request.hpp"],
-    deps = [
-        "//lib/tempfile",
-        "@rules_python//cc:current_py_cc_headers",
-    ],
+    deps = ["//lib/tempfile"],
     visibility = ["//visibility:public"],
 )
