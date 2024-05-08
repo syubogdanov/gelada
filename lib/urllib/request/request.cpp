@@ -27,19 +27,30 @@
 
 #include <pybind11/embed.h>
 
+#include "lib/tempfile/tempfile.hpp"
+
 namespace py = pybind11;
 
 std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
+    if (url.empty()) {
+        auto detail = "The URL must be non-empty";
+        throw std::runtime_error(detail);
+    }
+
     py::scoped_interpreter python;
 
     auto module = py::module::import("urllib.request");
     auto download = module.attr("urlretrieve");
 
+    auto destination = tempfile::mkstemp();
+
     try {
-        py::tuple response = download(url);
+        py::tuple response = download(url, destination.string());
         return response[0].cast<std::string>();
 
     } catch (const std::exception& exc) {
+        std::filesystem::remove(destination);
+
         auto detail = std::format("Failed to download a file using the URL={}", url);
         throw std::runtime_error(detail);
     }
