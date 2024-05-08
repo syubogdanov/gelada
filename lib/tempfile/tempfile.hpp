@@ -19,28 +19,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "lib/threading/tempfile/tempfile.hpp"
+#ifndef LIB_TEMPFILE_TEMPFILE_HPP_
+#define LIB_TEMPFILE_TEMPFILE_HPP_
 
-#include <cstdio>
-#include <fstream>
-#include <mutex>
+#include <filesystem>
 
-static std::mutex mutex;
+namespace tempfile {
 
-std::filesystem::path threading::tempfile::mkdtemp(void) {
-    std::lock_guard lock(mutex);
+std::filesystem::path mkdtemp(void);
 
-    auto dirname = std::tmpnam(nullptr);
-    std::filesystem::create_directories(dirname);
+std::filesystem::path mkstemp(void);
 
-    return std::filesystem::path(dirname);
-}
+}  // namespace threading::tempfile
 
-std::filesystem::path threading::tempfile::mkstemp(void) {
-    std::lock_guard lock(mutex);
-
-    auto filename = std::tmpnam(nullptr);
-    std::ofstream{filename};
-
-    return std::filesystem::path(filename);
-}
+#endif  // LIB_TEMPFILE_TEMPFILE_HPP_
