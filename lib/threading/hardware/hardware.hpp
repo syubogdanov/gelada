@@ -19,43 +19,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdlib>
+#ifndef LIB_THREADING_HARDWARE_HARDWARE_HPP_
+#define LIB_THREADING_HARDWARE_HARDWARE_HPP_
 
-#include <argparse/argparse.hpp>
+#include <cstddef>
 
-#include "etc/program/program.hpp"
-#include "etc/copyright/copyright.hpp"
+namespace threading::hardware {
 
-#include "lib/threading/hardware/hardware.hpp"
+std::size_t threads(void);
 
-namespace args {
+}  // namespace threading::hardware
 
-const int dof = 3;
-const int threads = threading::hardware::threads();
-
-}  // namespace args
-
-int main(int argc, char* argv[]) {
-    auto cli = argparse::ArgumentParser(
-        etc::program::name,
-        etc::program::version);
-
-    cli.add_argument("workflow")
-        .metavar("WORKFLOW");
-
-    cli.add_argument("-dof", "--degree-of-freedom")
-        .default_value(args::dof)
-        .help("limits the degree of freedom")
-        .metavar("DOF")
-        .nargs(1)
-        .scan<'i', int>();
-
-    cli.add_argument("-t", "--threads")
-        .default_value(args::threads)
-        .help("limits the number of threads")
-        .metavar("T")
-        .nargs(1)
-        .scan<'i', int>();
-
-    return EXIT_SUCCESS;
-}
+#endif  // LIB_THREADING_HARDWARE_HARDWARE_HPP_

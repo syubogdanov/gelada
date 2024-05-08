@@ -6,6 +6,7 @@
 | [Bazel][05]       | [@bazelbuild][06]  | [GitHub][07]   | [Apache-2.0][08] | Build System |
 | [pybind11][09]    | [@pybind][10]      | [GitHub][11]   | [pybind11][12]   | C++ Library  |
 | [levenshtein][13] | [@syubogdanov][14] | [GitHub][15]   | [MIT][16]        | C++ Library  |
+| [argparse][17]    | [@p-ranav][18]     | [GitHub][19]   | [MIT][20]        | C++ Library  |
 
 [01]: https://www.flaticon.com/free-icon/baboon_427412
 [02]: https://www.flaticon.com/authors/freepik
@@ -26,3 +27,8 @@
 [14]: https://github.com/syubogdanov
 [15]: https://github.com
 [16]: https://github.com/syubogdanov/levenshtein/blob/trunk/LICENSE
+
+[13]: https://github.com/p-ranav/argparse
+[14]: https://github.com/p-ranav
+[15]: https://github.com
+[16]: https://github.com/p-ranav/argparse/blob/master/LICENSE

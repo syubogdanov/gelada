@@ -19,43 +19,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdlib>
-
-#include <argparse/argparse.hpp>
-
-#include "etc/program/program.hpp"
-#include "etc/copyright/copyright.hpp"
-
 #include "lib/threading/hardware/hardware.hpp"
 
-namespace args {
+#include <thread>
 
-const int dof = 3;
-const int threads = threading::hardware::threads();
-
-}  // namespace args
-
-int main(int argc, char* argv[]) {
-    auto cli = argparse::ArgumentParser(
-        etc::program::name,
-        etc::program::version);
-
-    cli.add_argument("workflow")
-        .metavar("WORKFLOW");
-
-    cli.add_argument("-dof", "--degree-of-freedom")
-        .default_value(args::dof)
-        .help("limits the degree of freedom")
-        .metavar("DOF")
-        .nargs(1)
-        .scan<'i', int>();
-
-    cli.add_argument("-t", "--threads")
-        .default_value(args::threads)
-        .help("limits the number of threads")
-        .metavar("T")
-        .nargs(1)
-        .scan<'i', int>();
-
-    return EXIT_SUCCESS;
+std::size_t threading::hardware::threads(void) {
+    auto limit = std::thread::hardware_concurrency();
+    return (limit != 0) ? limit : 1;
 }
