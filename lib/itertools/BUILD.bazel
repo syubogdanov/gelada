@@ -27,5 +27,6 @@ cc_library(
     name = "itertools",
     srcs = ["itertools.cpp"],
     hdrs = ["itertools.hpp"],
+    deps = ["@cppitertools"],
     visibility = ["//visibility:public"],
 )
