@@ -93,12 +93,12 @@ std::filesystem::path zip(const std::string& username, const std::string& reposi
 
 std::filesystem::path bitbucket::clone(const std::string& username, const std::string& repository) {
     if (username.empty()) {
-        auto detail = "The Bitbucket username must be non-empty";
+        constexpr auto detail = "The Bitbucket username must be non-empty";
         throw std::runtime_error(detail);
     }
 
     if (repository.empty()) {
-        auto detail = "The Bitbucket repository must be non-empty";
+        constexpr auto detail = "The Bitbucket repository must be non-empty";
         throw std::runtime_error(detail);
     }
 

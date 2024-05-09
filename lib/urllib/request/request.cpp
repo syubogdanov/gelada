@@ -37,12 +37,12 @@ namespace py = pybind11;
 
 std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
     if (!Py_IsInitialized()) {
-        auto detail = "The Python interpreter is not initialized";
+        constexpr auto detail = "The Python interpreter is not initialized";
         throw std::runtime_error(detail);
     }
 
     if (url.empty()) {
-        auto detail = "The URL must be non-empty";
+        constexpr auto detail = "The URL must be non-empty";
         throw std::runtime_error(detail);
     }
 

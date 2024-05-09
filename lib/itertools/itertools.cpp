@@ -50,7 +50,7 @@ iter::impl::Combinator<std::vector<std::size_t>> itertools::combinations(
     std::size_t length
 ) {
     if (limit < length) {
-        auto detail = "The argument 'length' must be less than or equal to argument 'limit'";
+        constexpr auto detail = "The argument 'length' must be less than or equal to argument 'limit'";
         throw std::runtime_error(detail);
     }
 

@@ -37,7 +37,7 @@ namespace py = pybind11;
 
 bool zipfile::is_zipfile(const std::filesystem::path& path) {
     if (!Py_IsInitialized()) {
-        auto detail = "The Python interpreter is not initialized";
+        constexpr auto detail = "The Python interpreter is not initialized";
         throw std::runtime_error(detail);
     }
 
@@ -65,7 +65,7 @@ bool zipfile::is_zipfile(const std::filesystem::path& path) {
 
 std::filesystem::path zipfile::extract(const std::filesystem::path& path) {
     if (!Py_IsInitialized()) {
-        auto detail = "The Python interpreter is not initialized";
+        constexpr auto detail = "The Python interpreter is not initialized";
         throw std::runtime_error(detail);
     }
 

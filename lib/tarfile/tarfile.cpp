@@ -37,7 +37,7 @@ namespace py = pybind11;
 
 bool tarfile::is_tarfile(const std::filesystem::path& path) {
     if (!Py_IsInitialized()) {
-        auto detail = "The Python interpreter is not initialized";
+        constexpr auto detail = "The Python interpreter is not initialized";
         throw std::runtime_error(detail);
     }
 
@@ -65,7 +65,7 @@ bool tarfile::is_tarfile(const std::filesystem::path& path) {
 
 std::filesystem::path tarfile::extract(const std::filesystem::path& path) {
     if (!Py_IsInitialized()) {
-        auto detail = "The Python interpreter is not initialized";
+        constexpr auto detail = "The Python interpreter is not initialized";
         throw std::runtime_error(detail);
     }
 

@@ -29,7 +29,7 @@ bool rapidjson::schema::ok(const rapidjson::Document& document, const char* sche
     rapidjson::Document sd;
 
     if (sd.Parse(schemaJson).HasParseError()) {
-        auto detail = "Failed to parse the JSON schema";
+        constexpr auto detail = "Failed to parse the JSON schema";
         throw std::runtime_error(detail);
     }
 
