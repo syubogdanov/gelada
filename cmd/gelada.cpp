@@ -20,11 +20,12 @@
 // limitations under the License.
 
 #include <cstdlib>
+#include <format>
 
 #include <argparse/argparse.hpp>
 
-#include "etc/program/program.hpp"
 #include "etc/copyright/copyright.hpp"
+#include "etc/program/program.hpp"
 
 #include "lib/threading/hardware/hardware.hpp"
 
@@ -56,6 +57,11 @@ int main(int argc, char* argv[]) {
         .metavar("T")
         .nargs(1)
         .scan<'i', int>();
+
+    cli.add_epilog(std::format(
+        "{}, Copyright (c) 2024 {}",
+        etc::copyright::license,
+        etc::copyright::author));
 
     return EXIT_SUCCESS;
 }

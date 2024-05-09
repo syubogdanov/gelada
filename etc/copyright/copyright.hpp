@@ -24,11 +24,8 @@
 
 namespace etc::copyright {
 
-constexpr const char* authors[] = {
-    "Sergei Bogdanov <syubogdanov@outlook.com>"
-};
-
-constexpr const char* license = "the Apache-2.0 license";
+constexpr const char* author = "Sergei Bogdanov";
+constexpr const char* license = "Apache-2.0 License";
 
 }  // namespace etc::copyright
 
