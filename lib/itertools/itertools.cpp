@@ -21,8 +21,11 @@
 
 #include "lib/itertools/itertools.hpp"
 
+#include <algorithm>
 #include <format>
 #include <iterator>
+#include <limits>
+#include <numeric>
 #include <stdexcept>
 #include <string>
 
@@ -40,4 +43,19 @@ std::size_t itertools::count::dirlist(const std::filesystem::path& directory) {
     return std::distance(
         std::filesystem::directory_iterator(directory),
         std::filesystem::directory_iterator{});
+}
+
+iter::impl::Combinator<std::vector<std::size_t>> itertools::combinations(
+    std::size_t limit,
+    std::size_t length
+) {
+    if (limit < length) {
+        auto detail = "The argument 'length' must be less than or equal to argument 'limit'";
+        throw std::runtime_error(detail);
+    }
+
+    std::vector<std::size_t> range(limit);
+    std::iota(std::begin(range), std::end(range), 0);
+
+    return iter::combinations(std::move(range), length);
 }

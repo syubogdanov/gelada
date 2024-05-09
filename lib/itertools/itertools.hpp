@@ -19,23 +19,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstddef>
-#include <filesystem>
-
-///
-#include <algorithm>
-#include <limits>
-#include <numeric>
-#include <stdexcept>
-#include <vector>
-
-#include <chain.hpp>
-#include <combinations.hpp>
-
-///
-
 #ifndef LIB_ITERTOOLS_ITERTOOLS_HPP_
 #define LIB_ITERTOOLS_ITERTOOLS_HPP_
+
+#include <cstddef>
+#include <filesystem>
+#include <vector>
+
+#include <combinations.hpp>
 
 namespace itertools::count {
 
@@ -45,18 +36,8 @@ std::size_t dirlist(const std::filesystem::path& directory);
 
 namespace itertools {
 
-auto combinations(std::size_t limit, std::size_t length) {
-    if (limit < length) {
-        auto detail = "The argument 'length' must be less than or equal to argument 'limit'";
-        throw std::runtime_error(detail);
-    }
+iter::impl::Combinator<std::vector<std::size_t>> combinations(std::size_t limit, std::size_t length);
 
-    std::vector<std::size_t> range(limit);
-    std::iota(std::begin(range), std::end(range), 0);
-
-    return iter::combinations(std::move(range), length);
-}
-
-}
+}  // namespace itertools
 
 #endif  // LIB_ITERTOOLS_ITERTOOLS_HPP_
