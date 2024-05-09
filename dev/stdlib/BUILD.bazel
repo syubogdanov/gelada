@@ -25,7 +25,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "stdlib",
-    hdrs = ["include/experimental/embed"]
+    hdrs = ["include/experimental/embed"],
     includes = ["include"],
     visibility = ["//visibility:public"],
 )
