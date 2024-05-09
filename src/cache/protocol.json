@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "key": {
+            "type": "string"
+        },
+        "value": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "number"
+        }
+    },
+    "required": [
+        "key",
+        "value",
+        "timestamp"
+    ]
+}
