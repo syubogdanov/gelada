@@ -25,6 +25,7 @@
 #include "src/ast/starlark/starlark.hpp"
 
 #include <exception>
+#include <string>
 
 #include <experimental/embed>
 

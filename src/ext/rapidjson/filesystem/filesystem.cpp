@@ -23,6 +23,7 @@
 
 #include <format>
 #include <stdexcept>
+#include <srting>
 
 #include "lib/pathlib/pathlib.hpp"
 

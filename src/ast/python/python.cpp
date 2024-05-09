@@ -25,6 +25,7 @@
 #include "src/ast/python/python.hpp"
 
 #include <exception>
+#include <string>
 
 #include <experimental/embed>
 

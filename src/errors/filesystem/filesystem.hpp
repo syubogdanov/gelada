@@ -30,17 +30,17 @@ namespace errors::filesystem {
 
 class FilesystemError: public std::runtime_error {
  public:
-    FilesystemError(const std::string& detail);
+    explicit FilesystemError(const std::string& detail);
 };
 
 class FileNotFoundError: public FilesystemError {
  public:
-    FileNotFoundError(const std::filesystem::path& path);
+    explicit FileNotFoundError(const std::filesystem::path& path);
 };
 
 class NotAFileError: public FilesystemError {
  public:
-    NotAFileError(const std::filesystem::path& path);
+    explicit NotAFileError(const std::filesystem::path& path);
 };
 
 }  // namespace errors::filesystem

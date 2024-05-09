@@ -29,7 +29,7 @@ namespace errors::python {
 
 class PythonError: public std::runtime_error {
  public:
-    PythonError(const std::string& detail);
+    explicit PythonError(const std::string& detail);
 };
 
 class NotInitializedInterpreterError: public PythonError {

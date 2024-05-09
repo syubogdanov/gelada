@@ -30,14 +30,14 @@ namespace errors::rapidjson {
 
 class RapidjsonError: public std::runtime_error {
  public:
-    RapidjsonError(const std::string& detail);
+    explicit RapidjsonError(const std::string& detail);
 };
 
 class MismatchedSchemaError: public RapidjsonError {
  public:
     MismatchedSchemaError(void);
 
-    MismatchedSchemaError(const std::filesystem::path& path);
+    explicit MismatchedSchemaError(const std::filesystem::path& path);
 };
 
 }  // namespace errors::rapidjson
