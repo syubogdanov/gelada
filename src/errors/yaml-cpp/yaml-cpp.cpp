@@ -33,4 +33,4 @@ errors::YAML::MismatchedSchemaError::MismatchedSchemaError(void)
 
 errors::YAML::MismatchedSchemaError::MismatchedSchemaError(const std::filesystem::path& path)
     : errors::YAML::YAMLError::YAMLError(std::format(
-        "The document={} does not match the schema specification", path.string())) {}
+        "The document {} does not match the schema specification", path.string())) {}

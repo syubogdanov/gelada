@@ -29,8 +29,8 @@ errors::filesystem::FilesystemError::FilesystemError(const std::string& detail)
 
 errors::filesystem::FileNotFoundError::FileNotFoundError(const std::filesystem::path& path)
     : errors::filesystem::FilesystemError::FilesystemError(std::format(
-        "The path={} does not exist", path.string())) {}
+        "The path {} does not exist", path.string())) {}
 
 errors::filesystem::NotAFileError::NotAFileError(const std::filesystem::path& path)
     : errors::filesystem::FilesystemError::FilesystemError(std::format(
-        "The path={} is not a regular file", path.string())) {}
+        "The path {} is not a regular file", path.string())) {}

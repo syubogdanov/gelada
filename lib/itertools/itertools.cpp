@@ -29,14 +29,34 @@
 #include <stdexcept>
 #include <string>
 
-std::size_t itertools::count::dirlist(const std::filesystem::path& directory) {
+bool itertools::contains::regular_files(const std::filesystem::path& directory) {
     if (!std::filesystem::exists(directory)) {
-        auto detail = std::format("The path={} does not exist", directory.string());
+        auto detail = std::format("The path {} does not exist", directory.string());
         throw std::runtime_error(detail);
     }
 
     if (!std::filesystem::is_directory(directory)) {
-        auto detail = std::format("The path={} is not a directory", directory.string());
+        auto detail = std::format("The path {} is not a directory", directory.string());
+        throw std::runtime_error(detail);
+    }
+
+    for (const std::filesystem::path& path : std::filesystem::directory_iterator(directory)) {
+        if (std::filesystem::is_regular_file(path)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::size_t itertools::count::dirlist(const std::filesystem::path& directory) {
+    if (!std::filesystem::exists(directory)) {
+        auto detail = std::format("The path {} does not exist", directory.string());
+        throw std::runtime_error(detail);
+    }
+
+    if (!std::filesystem::is_directory(directory)) {
+        auto detail = std::format("The path {} is not a directory", directory.string());
         throw std::runtime_error(detail);
     }
 
@@ -50,7 +70,7 @@ iter::impl::Combinator<std::vector<std::size_t>> itertools::combinations(
     std::size_t length
 ) {
     if (limit < length) {
-        constexpr auto detail = "The argument 'length' must be less than or equal to argument 'limit'";
+        constexpr auto detail = "The length must be less than or equal to limit";
         throw std::runtime_error(detail);
     }
 

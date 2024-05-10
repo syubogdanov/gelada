@@ -33,4 +33,4 @@ errors::rapidjson::MismatchedSchemaError::MismatchedSchemaError(void)
 
 errors::rapidjson::MismatchedSchemaError::MismatchedSchemaError(const std::filesystem::path& path)
     : errors::rapidjson::RapidjsonError::RapidjsonError(std::format(
-        "The document={} does not match the schema specification", path.string())) {}
+        "The document {} does not match the schema specification", path.string())) {}
