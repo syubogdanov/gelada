@@ -29,9 +29,9 @@ cc_library(
     srcs = [embed("workflow.cpp")],
     hdrs = ["workflow.hpp"],
     deps = [
+        "//lib/adapters/yaml-json",
         "//src/ext/rapidjson/filesystem",
         "//src/ext/rapidjson/schema",
-        "//src/ext/yaml-cpp/adapters",
         "@rapidjson",
         "@stdlib",
     ],

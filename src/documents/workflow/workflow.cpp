@@ -28,9 +28,10 @@
 
 #include <experimental/embed>
 
+#include "lib/adapters/yaml-json/yaml-json.hpp"
+
 #include "src/ext/rapidjson/filesystem/filesystem.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
-#include "src/ext/yaml-cpp/adapters/adapters.hpp"
 
 namespace __documents::workflow::specification {
 
@@ -98,7 +99,7 @@ rapidjson::Document documents::workflow::read(const std::filesystem::path& path)
         workflow = rapidjson::filesystem::read(path);
     }
     else if (extension == ".yaml" || extension == ".yml") {
-        workflow = YAML::adapters::rapidjson::read(path);
+        workflow = adapters::to_rapidjson::read_yaml(path);
     }
     else if (!path.has_extension()) {
         auto detail = "The workflow does not have an extension";

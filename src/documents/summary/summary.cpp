@@ -27,11 +27,11 @@
 
 #include <experimental/embed>
 
+#include "lib/adapters/yaml-json/yaml-json.hpp"
 #include "lib/tempfile/tempfile.hpp"
 
 #include "src/ext/rapidjson/filesystem/filesystem.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
-#include "src/ext/yaml-cpp/adapters/adapters.hpp"
 
 namespace __documents::summary::specification {
 
@@ -102,7 +102,7 @@ std::filesystem::path documents::summary::write_yaml(const rapidjson::Document& 
     __documents::summary::specification::validate(summary);
 
     auto destination = tempfile::mkstemp();
-    YAML::adapters::rapidjson::write(summary, destination);
+    adapters::from_rapidjson::write_yaml(summary, destination);
 
     return destination;
 }

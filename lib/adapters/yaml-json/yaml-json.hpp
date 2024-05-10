@@ -19,19 +19,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SRC_EXT_YAML_CPP_ADAPTERS_ADAPTERS_HPP_
-#define SRC_EXT_YAML_CPP_ADAPTERS_ADAPTERS_HPP_
+#ifndef LIB_ADAPTERS_YAML_JSON_YAML_JSON_HPP_
+#define LIB_ADAPTERS_YAML_JSON_YAML_JSON_HPP_
 
 #include <filesystem>
 
 #include <rapidjson/document.h>
 
-namespace YAML::adapters::rapidjson {
+namespace adapters::to_rapidjson {
 
-::rapidjson::Document read(const std::filesystem::path& path);
+rapidjson::Document read_yaml(const std::filesystem::path& path);
 
-void write(const ::rapidjson::Document& document, const std::filesystem::path& path);
+}  // namespace adapters::to_rapidjson
 
-}  // namespace YAML::adapters::rapidjson
+namespace adapters::from_rapidjson {
 
-#endif  // SRC_EXT_YAML_CPP_ADAPTERS_ADAPTERS_HPP_
+void write_yaml(const rapidjson::Document& document, const std::filesystem::path& path);
+
+}  // namespace adapters::from_rapidjson
+
+#endif  // LIB_ADAPTERS_YAML_JSON_YAML_JSON_HPP_

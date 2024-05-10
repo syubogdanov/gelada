@@ -19,7 +19,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/ext/yaml-cpp/adapters/adapters.hpp"
+#include "lib/adapters/yaml-json/yaml-json.hpp"
 
 #include <format>
 #include <stdexcept>
@@ -29,13 +29,13 @@
 
 #include "lib/pathlib/pathlib.hpp"
 
-::rapidjson::Document YAML::adapters::rapidjson::read(const std::filesystem::path& path) {
+rapidjson::Document adapters::to_rapidjson::read_yaml(const std::filesystem::path& path) {
     YAML::Emitter emitter;
 
     emitter << YAML::DoubleQuoted << YAML::Flow << YAML::BeginSeq
         << YAML::Load(pathlib::read_text(path));
 
-    ::rapidjson::Document workflow;
+    rapidjson::Document workflow;
 
     if (workflow.Parse<0>(emitter.c_str() + 1).HasParseError()) {
         auto detail = std::format("The path={} contains an invalid YAML document", path.string());
@@ -45,8 +45,8 @@
     return workflow;
 }
 
-void YAML::adapters::rapidjson::write(
-    const ::rapidjson::Document& document,
+void adapters::from_rapidjson::write_yaml(
+    const rapidjson::Document& document,
     const std::filesystem::path& path
 ) {
     // FIXME(syubogdanov)

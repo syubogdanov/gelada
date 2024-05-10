@@ -24,9 +24,9 @@ limitations under the License.
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
-    name = "adapters",
-    srcs = ["adapters.cpp"],
-    hdrs = ["adapters.hpp"],
+    name = "yaml-json",
+    srcs = ["yaml-json.cpp"],
+    hdrs = ["yaml-json.hpp"],
     deps = [
         "//lib/pathlib",
         "@rapidjson",
