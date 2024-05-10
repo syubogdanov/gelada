@@ -38,6 +38,7 @@ cc_library(
         "//src/ext/rapidjson/schema",
         "//src/shutil",
         "@rapidjson",
+        "@rules_python//python/cc:current_py_cc_headers",
         "@stdlib",
         "@thread-pool",
     ],

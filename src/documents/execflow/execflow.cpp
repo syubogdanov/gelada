@@ -19,11 +19,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include "src/documents/execflow/execflow.hpp"
 
 #include <chrono>
 #include <filesystem>
 #include <format>
+#include <functional>
 #include <future>
 #include <mutex>
 #include <string>
@@ -113,9 +117,25 @@ void validate(const rapidjson::Document& execflow) {
 
 namespace __documents::execflow::cache::timeout {
 
-constexpr const std::size_t hours = 1ULL;
+static constexpr const std::size_t hours = 1ULL;
 
 }  // namespace __documents::execflow::cache::timeout
+
+namespace __documents::execflow::cache {
+
+static std::mutex mutex;
+
+std::filesystem::path tryread(const std::string& key);  // TODO
+
+void write(const std::string& key, const std::filesystem::path& path);  // TODO
+
+}  // namespace __documents::execflow::cache
+
+namespace __documents::execflow::python {
+
+static std::mutex mutex;
+
+}  // namespace __documents::execflow::python
 
 namespace __documents::execflow::parallel {
 
@@ -126,7 +146,6 @@ auto fetch_latest(const rapidjson::Document& workflow, std::size_t threads) {
     }
 
     BS::thread_pool pool(threads);
-    std::mutex cache_mutex;
 
     std::unordered_map<std::string, std::future<std::filesystem::path>> downloads;
 
@@ -143,7 +162,40 @@ auto fetch_latest(const rapidjson::Document& workflow, std::size_t threads) {
         std::string user = submission["user"].GetString();
         std::string repo = submission["repo"].GetString();
 
-        // TODO(syubogdanov): ...
+        auto key = std::format("{}/{}/{}", host, user, repo);
+        auto path = __documents::execflow::cache::tryread(key);
+
+        if (!path.empty() && std::filesystem::exists(path)) {
+            downloads[name] = pool.submit_task([path]{ return path; });
+            continue;
+        }
+
+        if (host == "GitHub") {
+            downloads[name] = pool.submit_task([key, user, repo]{
+                // TODO Python (?)
+
+                auto path = github::clone(user, repo);
+                __documents::execflow::cache::write(key, path);
+
+                return path;
+            });
+            continue;
+        }
+
+        if (host == "Bitbucket") {
+            downloads[name] = pool.submit_task([key, user, repo]{
+                // TODO Python (?)
+
+                auto path = bitbucket::clone(user, repo);
+                __documents::execflow::cache::write(key, path);
+
+                return path;
+            });
+            continue;
+        }
+
+        constexpr auto detail = "This code is unreachable";
+        throw std::runtime_error(detail);
     }
 
     return downloads;
