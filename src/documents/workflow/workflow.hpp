@@ -35,10 +35,6 @@ rapidjson::Document read(const std::filesystem::path& path);
 
 namespace documents::workflow::count {
 
-std::size_t checks(const rapidjson::Document& workflow);
-
-std::size_t tasks(const rapidjson::Document& workflow);
-
 }  // namespace documents::workflow::count
 
 #endif  // SRC_DOCUMENTS_WORKFLOW_WORKFLOW_HPP_

@@ -39,61 +39,57 @@
 
 namespace __documents::workflow::specification {
 
-bool ok(const rapidjson::Document& workflow) {
-    constexpr auto schema = std::embed("src/documents/workflow/protocol.json");
+constexpr auto schema = std::embed("src/documents/workflow/protocol.json");
 
+void validate(const rapidjson::Document& workflow) {
     if (!rapidjson::schema::ok(workflow, schema)) {
-        return false;
+        auto detail = "The workflow does not match the schema";
+        throw std::runtime_error(detail);
     }
 
-    std::unordered_set<std::string> unique_jobs;
-    std::unordered_set<std::string> unique_tasks;
+    std::unordered_set<std::string> submissions;
 
-    for (const auto& job : workflow["jobs"].GetArray()) {
-        std::string name = job["name"].GetString();
+    for (const auto& submission : workflow["submissions"].GetArray()) {
+        std::string name = submission["name"].GetString();
 
-        if (name.empty() || unique_jobs.contains(name)) {
-            return false;
+        if (name.empty()) {
+            auto detail = "The workflow contains a submission with an empty name";
+            throw std::runtime_error(detail);
         }
 
-        unique_jobs.insert(name);
-        unique_tasks.clear();
+        if (submissions.contains(name)) {
+            auto detail = std::format("The workflow contains duplicate submissions: \"{}\"", name);
+            throw std::runtime_error(detail);
+        }
 
-        for (const auto& task : job["tasks"].GetArray()) {
-            name = task["name"].GetString();
+        submissions.insert(name);
 
-            if (name.empty() || unique_tasks.contains(name)) {
-                return false;
+        if (submission.HasMember("host")) {
+            std::string user = submission["user"].GetString();
+            if (user.empty()) {
+                auto detail = std::format("The submission \"{}\" has an empty username", name);
+                throw std::runtime_error(detail);
             }
 
-            unique_tasks.insert(name);
-
-            if (task.HasMember("host")) {
-                std::string user = task["user"].GetString();
-                std::string repo = task["repo"].GetString();
-
-                if (user.empty() || repo.empty()) {
-                    return false;
-                }
-
-            } else {
-                std::string path = task["path"].GetString();
-                if (path.empty()) {
-                    return false;
-                }
+            std::string repo = submission["repo"].GetString();
+            if (repo.empty()) {
+                auto detail = std::format("The submission \"{}\" has an empty repository", name);
+                throw std::runtime_error(detail);
             }
         }
-
-        if (unique_tasks.size() < 2) {
-            return false;
+        else {
+            std::string path = submission["path"].GetString();
+            if (path.empty()) {
+                auto detail = std::format("The submission \"{}\" has an empty path", name);
+                throw std::runtime_error(detail);
+            }
         }
     }
 
-    if (unique_jobs.empty()) {
-        return false;
+    if (submissions.size() <= 1) {
+        auto detail = "There must be at least two submissions within the workflow";
+        throw std::runtime_error(detail);
     }
-
-    return true;
 }
 
 }  // namespace __documents::workflow::specification
@@ -118,27 +114,8 @@ rapidjson::Document documents::workflow::read(const std::filesystem::path& path)
         throw std::runtime_error(detail);
     }
 
-    if (!__documents::workflow::specification::ok(workflow)) {
-        auto detail = "The workflow does not match the specification";
-        throw std::runtime_error(detail);
-    }
+    /* Throws an exception on any specification mismatch */
+    __documents::workflow::specification::validate(workflow);
 
     return workflow;
-}
-
-std::size_t documents::workflow::count::checks(const rapidjson::Document& workflow) {
-    auto lambda = [](std::size_t nmemb, const rapidjson::Value& job) {
-        std::size_t tasks = job["tasks"].Size();
-        return nmemb + tasks * (tasks - 1) / 2;
-    };
-    const rapidjson::Value& jobs = workflow["jobs"];
-    return std::accumulate(jobs.Begin(), jobs.End(), 0ULL, lambda);
-}
-
-std::size_t documents::workflow::count::tasks(const rapidjson::Document& workflow) {
-    auto lambda = [](std::size_t nmemb, const rapidjson::Value& job) {
-        return nmemb + job["tasks"].Size();
-    };
-    const rapidjson::Value& jobs = workflow["jobs"];
-    return std::accumulate(jobs.Begin(), jobs.End(), 0ULL, lambda);
 }
