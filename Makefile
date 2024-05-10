@@ -1,9 +1,10 @@
 default: build
 
 build:
-	bazel build //cmd:gelada
-	bazel build //scripts/cmd/install:gelada
-	bazel build //scripts/cmd/uninstall:gelada
+	@bazel build \
+		//cmd:gelada \
+		//scripts/cmd/install:gelada \
+		//scripts/cmd/uninstall:gelada
 
 install:
 	@bazel-bin/scripts/cmd/install/gelada
