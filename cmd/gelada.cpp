@@ -37,10 +37,16 @@
 
 namespace args {
 
-const int dof = 3;
+constexpr const int dof = 3;
 const int threads = threading::hardware::threads();
 
 }  // namespace args
+
+namespace warnings::limit {
+
+constexpr const int dof = 3;
+
+}  // namespace warnings::limit
 
 int main(int argc, char* argv[]) {
     auto cli = argparse::ArgumentParser(
@@ -88,6 +94,15 @@ int main(int argc, char* argv[]) {
     if (dof <= 0) {
         logging::error("The degree of freedom must be positive");
         return EXIT_FAILURE;
+    }
+
+    if (dof > warnings::limit::dof) {
+        auto detail = std::format(
+            "Recommended to use the DOF no higher than {}",
+            warnings::limit::dof);
+
+        logging::warning(detail);
+        logging::newline();
     }
 
     std::filesystem::path path_to_workflow = cli.get<std::string>("workflow");
