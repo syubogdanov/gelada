@@ -58,6 +58,11 @@ void trace(const Text& detail) {
     std::cout << prefix << detail << std::endl;
 }
 
+void newline(void) {
+    std::lock_guard lock(mutex);
+    std::cout << std::endl;
+}
+
 }  // namespace logging
 
 #endif  // LIB_LOGGING_LOGGING_HPP_
