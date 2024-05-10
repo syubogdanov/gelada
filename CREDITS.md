@@ -8,7 +8,8 @@
 | [levenshtein][13]  | [@syubogdanov][14] | [GitHub][15]   | [MIT][16]                  | C++ Library  |
 | [argparse][17]     | [@p-ranav][18]     | [GitHub][19]   | [MIT][20]                  | C++ Library  |
 | [rapidjson][21]    | [@Tencent][22]     | [GitHub][23]   | [rapidjson][24]            | C++ Library  |
-| [cppitertools][25] | [ryanhaining][26]  | [GitHub][27]   | [BSD-2-Clause license][28] | C++ Library  |
+| [cppitertools][25] | [@ryanhaining][26] | [GitHub][27]   | [BSD-2-Clause license][28] | C++ Library  |
+| [yaml-cpp][29]     | [@jbeder][30]      | [GitHub][31]   | [MIT][32]                  | C++ Library  |
 
 [01]: https://www.flaticon.com/free-icon/baboon_427412
 [02]: https://www.flaticon.com/authors/freepik
@@ -44,3 +45,8 @@
 [26]: https://github.com/ryanhaining
 [27]: https://github.com
 [28]: https://github.com/ryanhaining/cppitertools/blob/master/LICENSE.md
+
+[29]: https://github.com/jbeder/yaml-cpp
+[30]: https://github.com/jbeder
+[31]: https://github.com
+[32]: https://github.com/jbeder/yaml-cpp/blob/master/LICENSE
