@@ -25,6 +25,7 @@
 #include <format>
 
 #include <argparse/argparse.hpp>
+#include <BS_thread_pool.hpp>
 #include <rapidjson/document.h>
 
 #include "etc/copyright/copyright.hpp"
@@ -33,6 +34,7 @@
 #include "lib/logging/logging.hpp"
 #include "lib/threading/hardware/hardware.hpp"
 
+#include "src/documents/execflow/execflow.hpp"
 #include "src/documents/workflow/workflow.hpp"
 
 namespace args {
@@ -116,10 +118,12 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    rapidjson::Document execflow;
     rapidjson::Document workflow;
 
     try {
         workflow = documents::workflow::read(path_to_workflow);
+        execflow = documents::execflow::parallel::from_workflow(workflow, threads);
     }
     catch (const std::exception& exc) {
         logging::error(exc.what());

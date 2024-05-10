@@ -21,19 +21,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("//bazel/rules_cc:defs.bzl", "embed")
 
-cc_binary(
-    name = "gelada",
-    srcs = ["gelada.cpp"],
+cc_library(
+    name = "execflow",
+    srcs = [embed("execflow.cpp")],
+    hdrs = ["execflow.hpp"],
     deps = [
-        "//etc/copyright",
-        "//etc/program",
-        "//lib/logging",
-        "//lib/threading/hardware",
-        "//src/documents/execflow",
-        "//src/documents/workflow",
-        "@argparse",
+        "//lib/bitbucket",
+        "//lib/github",
+        "//lib/itertools",
+        "//src/cache",
+        "//src/errors/filesystem",
+        "//src/ext/rapidjson/build",
+        "//src/ext/rapidjson/schema",
+        "//src/shutil",
         "@rapidjson",
+        "@stdlib",
+        "@thread-pool",
     ],
+    additional_compiler_inputs = ["protocol.json"],
+    visibility = ["//visibility:public"],
 )
