@@ -44,12 +44,12 @@ def _is_source_file(path):
 def _replace_extension(path, extension):
     return path.removesuffix(_get_extension(path)) + extension
 
-def embed(path):
+def embed(name):
     """
     Activates `std::embed` calls before compiling the target.
 
     Args:
-        path: the label of the file that requires embeddings
+        name: the label of the file that requires embeddings
 
     Returns:
         the label of the file in which the embedding was performed
@@ -59,20 +59,20 @@ def embed(path):
           for embedding. It is assumed that the user will specify these
           files as the `additional_compiler_inputs` attribute
     """
-    if not _is_source_file(path):
-        detail = "The path={} is not a C++ source file".format(path)
+    if not _is_source_file(name):
+        detail = "The path={} is not a C++ source file".format(name)
         fail(detail)
 
-    out = _replace_extension(path, ".gelada.cpp")
+    out = _replace_extension(name, ".gelada.cpp")
     tool = "//bazel/rules_cc:tools/embed"
 
     native.genrule(
-        name = ".embed/{}".format(path),
-        srcs = [path],
+        name = ".embed/{}".format(name),
+        srcs = [name],
         outs = [out],
         cmd = "{} {} {}".format(
             "$(location {})".format(tool),
-            "$(location {})".format(path),
+            "$(location {})".format(name),
             "$(location {})".format(out),
         ),
         tools = [tool],
