@@ -26,8 +26,6 @@ import sys
 
 from pathlib import Path
 
-from scripts.etc.root import GELADA_ROOT
-
 from scripts.lib import logging
 from scripts.lib.platform import is_windows
 
