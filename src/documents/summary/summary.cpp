@@ -38,7 +38,7 @@ constexpr auto schema = std::embed("src/documents/summary/protocol.json");
 
 void validate(const rapidjson::Document& document) {
     if (!rapidjson::schema::ok(document, schema)) {
-        auto detail = "The summary does not match the schema";
+        constexpr auto detail = "The summary does not match the schema";
         throw std::runtime_error(detail);
     }
 
@@ -47,38 +47,38 @@ void validate(const rapidjson::Document& document) {
 
         std::string cheater = submissions["Cheater"].GetString();
         if (cheater.empty()) {
-            auto detail = "The summary contains an empty cheater submission name";
+            constexpr auto detail = "The summary contains an empty cheater submission name";
             throw std::runtime_error(detail);
         }
 
         std::string author = submissions["author"].GetString();
         if (author.empty()) {
-            auto detail = "The summary contains an empty author submission name";
+            constexpr auto detail = "The summary contains an empty author submission name";
             throw std::runtime_error(detail);
         }
 
         if (cheater == author) {
-            auto detail = "The summary contains submissions that coincide in name";
+            constexpr auto detail = "The summary contains submissions that coincide in name";
             throw std::runtime_error(detail);
         }
 
         for (const auto& matching : summary["matchings"].GetArray()) {
             std::string cheated = matching["cheated"].GetString();
             if (cheated.empty()) {
-                auto detail = "The summary contains a cheated file without path";
+                constexpr auto detail = "The summary contains a cheated file without path";
                 throw std::runtime_error(detail);
             }
 
             auto confidence = matching["confidence"].GetDouble();
             if (!(0.0 <= confidence && confidence <= 1.0)) {
-                auto detail = "The summary contains an invalid probability";
+                constexpr auto detail = "The summary contains an invalid probability";
                 throw std::runtime_error(detail);
             }
 
             for (const auto& source : matching["sources"].GetArray()) {
                 std::string path = source.GetString();
                 if (path.empty()) {
-                    auto detail = "The summary contains an empty path as source";
+                    constexpr auto detail = "The summary contains an empty path as source";
                     throw std::runtime_error(detail);
                 }
             }

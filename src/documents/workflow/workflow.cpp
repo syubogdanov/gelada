@@ -39,7 +39,7 @@ constexpr auto schema = std::embed("src/documents/workflow/protocol.json");
 
 void validate(const rapidjson::Document& workflow) {
     if (!rapidjson::schema::ok(workflow, schema)) {
-        auto detail = "The workflow does not match the schema";
+        constexpr auto detail = "The workflow does not match the schema";
         throw std::runtime_error(detail);
     }
 
@@ -49,7 +49,7 @@ void validate(const rapidjson::Document& workflow) {
         std::string name = submission["name"].GetString();
 
         if (name.empty()) {
-            auto detail = "The workflow contains a submission with an empty name";
+            constexpr auto detail = "The workflow contains a submission with an empty name";
             throw std::runtime_error(detail);
         }
 
@@ -83,7 +83,7 @@ void validate(const rapidjson::Document& workflow) {
     }
 
     if (submissions.size() <= 1) {
-        auto detail = "There must be at least two submissions within the workflow";
+        constexpr auto detail = "There must be at least two submissions within the workflow";
         throw std::runtime_error(detail);
     }
 }
@@ -102,11 +102,11 @@ rapidjson::Document documents::workflow::read(const std::filesystem::path& path)
         workflow = adapters::to_rapidjson::read_yaml(path);
     }
     else if (!path.has_extension()) {
-        auto detail = "The workflow does not have an extension";
+        constexpr auto detail = "The workflow does not have an extension";
         throw std::runtime_error(detail);
     }
     else {
-        auto detail = "The workflow has an unsupported extension";
+        constexpr auto detail = "The workflow has an unsupported extension";
         throw std::runtime_error(detail);
     }
 
