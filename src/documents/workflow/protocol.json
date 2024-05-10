@@ -1,34 +1,34 @@
 {
-    "$schema":  "http://json-schema.org/draft-04/schema#",
-    "type":  "object",
-    "additionalProperties":  false,
-    "properties":  {
-        "submissions":  {
-            "type":  "array",
-            "items":  {
-                "oneOf":  [
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "submissions": {
+            "type": "array",
+            "items": {
+                "oneOf": [
                     {
-                        "type":  "object",
-                        "additionalProperties":  false,
-                        "properties":  {
-                            "name":  {
-                                "type":  "string"
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "type": "string"
                             },
-                            "user":  {
-                                "type":  "string"
+                            "user": {
+                                "type": "string"
                             },
-                            "repo":  {
-                                "type":  "string"
+                            "repo": {
+                                "type": "string"
                             },
-                            "host":  {
-                                "type":  "string",
-                                "enum":  [
+                            "host": {
+                                "type": "string",
+                                "enum": [
                                     "Bitbucket",
                                     "GitHub"
                                 ]
                             }
                         },
-                        "required":  [
+                        "required": [
                             "name",
                             "user",
                             "repo",
@@ -36,17 +36,17 @@
                         ]
                     },
                     {
-                        "type":  "object",
-                        "additionalProperties":  false,
-                        "properties":  {
-                            "name":  {
-                                "type":  "string"
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "type": "string"
                             },
-                            "path":  {
-                                "type":  "string"
+                            "path": {
+                                "type": "string"
                             }
                         },
-                        "required":  [
+                        "required": [
                             "name",
                             "path"
                         ]
@@ -55,7 +55,7 @@
             }
         }
     },
-    "required":  [
+    "required": [
         "submissions"
     ]
 }
