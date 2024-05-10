@@ -19,7 +19,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/cache/cache.hpp"
+#include "src/kvcache/kvcache.hpp"
 
 #include <cassert>
 #include <chrono>
@@ -40,23 +40,23 @@
 #include "src/ext/rapidjson/filesystem/filesystem.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
 
-namespace __cache {
+namespace __kvcache {
 
-constexpr auto schema = std::embed("src/cache/protocol.json");
+constexpr auto schema = std::embed("src/kvcache/protocol.json");
 
 std::filesystem::path path_to(const std::string& key) {
     auto hash = std::to_string(std::hash<std::string>{}(key));
     return std::filesystem::temp_directory_path() / hash;
 }
 
-}  // namespace __cache
+}  // namespace __kvcache
 
-bool cache::exists(const std::string& key) {
-    auto path = __cache::path_to(key);
+bool kvcache::exists(const std::string& key) {
+    auto path = __kvcache::path_to(key);
 
     try {
         auto document = rapidjson::filesystem::read(path);
-        if (!rapidjson::schema::ok(document, __cache::schema)) {
+        if (!rapidjson::schema::ok(document, __kvcache::schema)) {
             return false;
         }
         if (document["key"].GetString() != key) {
@@ -70,16 +70,16 @@ bool cache::exists(const std::string& key) {
     return true;
 }
 
-cache::Cache cache::read(const std::string& key) {
-    if (!cache::exists(key)) {
+kvcache::Cache kvcache::read(const std::string& key) {
+    if (!kvcache::exists(key)) {
         auto detail = std::format("The cache is missing for key {}", key);
         throw std::runtime_error(detail);
     }
 
-    auto path = __cache::path_to(key);
+    auto path = __kvcache::path_to(key);
     auto document = rapidjson::filesystem::read(path);
 
-    cache::Cache object;
+    kvcache::Cache object;
     object.key = key;
 
     object.value = document["value"].GetString();
@@ -88,7 +88,7 @@ cache::Cache cache::read(const std::string& key) {
     return object;
 }
 
-void cache::write(const std::string& key, const std::string& value) {
+void kvcache::write(const std::string& key, const std::string& value) {
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::system_clock::to_time_t(now);
 
@@ -101,9 +101,9 @@ void cache::write(const std::string& key, const std::string& value) {
     document.AddMember("value", rapidjson::build::string(value, allocator), allocator);
     document.AddMember("timestamp", rapidjson::Value(timestamp), allocator);
 
-    assert(rapidjson::schema::ok(document, __cache::schema));
+    assert(rapidjson::schema::ok(document, __kvcache::schema));
 
-    auto path = __cache::path_to(key);
+    auto path = __kvcache::path_to(key);
     if (std::filesystem::exists(path) && std::filesystem::is_directory(path)) {
         return;
     }
@@ -112,4 +112,9 @@ void cache::write(const std::string& key, const std::string& value) {
         rapidjson::filesystem::write(document, path);
     }
     catch (const std::exception&) {}
+}
+
+void kvcache::drop(const std::string& key) {
+    auto path = __kvcache::path_to(key);
+    std::filesystem::remove(path);
 }

@@ -43,10 +43,10 @@
 #include "lib/github/github.hpp"
 #include "lib/itertools/itertools.hpp"
 
-#include "src/cache/cache.hpp"
 #include "src/errors/filesystem/filesystem.hpp"
 #include "src/ext/rapidjson/build/build.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
+#include "src/kvcache/kvcache.hpp"
 #include "src/shutil/shutil.hpp"
 
 namespace __documents::execflow::specification {
@@ -125,9 +125,33 @@ namespace __documents::execflow::cache {
 
 static std::mutex mutex;
 
-std::filesystem::path tryread(const std::string& key);  // TODO
+std::filesystem::path tryread(const std::string& key) {
+    std::lock_guard lock(__documents::execflow::cache::mutex);
 
-void write(const std::string& key, const std::filesystem::path& path);  // TODO
+    if (!kvcache::exists(key)) {
+        return "";
+    }
+
+    auto cached = kvcache::read(key);
+
+    auto t1 = std::chrono::system_clock::now();
+    auto t2 = std::chrono::system_clock::from_time_t(cached.timestamp);
+
+    auto duration = std::chrono::duration_cast<std::chrono::hours>(t1 - t2);
+    auto hours = duration.count();
+
+    if (hours > __documents::execflow::cache::timeout::hours) {
+        kvcache::drop(key);
+        return "";
+    }
+
+    return cached.value;
+}
+
+void write(const std::string& key, const std::filesystem::path& path) {
+    std::lock_guard lock(__documents::execflow::cache::mutex);
+    kvcache::write(key, path.string());
+}
 
 }  // namespace __documents::execflow::cache
 

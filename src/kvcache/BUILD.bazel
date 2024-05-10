@@ -25,9 +25,9 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
-    name = "cache",
-    srcs = [embed("cache.cpp")],
-    hdrs = ["cache.hpp"],
+    name = "kvcache",
+    srcs = [embed("kvcache.cpp")],
+    hdrs = ["kvcache.hpp"],
     deps = [
         "//src/errors/filesystem",
         "//src/ext/rapidjson/build",

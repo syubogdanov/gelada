@@ -19,13 +19,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SRC_CACHE_CACHE_HPP_
-#define SRC_CACHE_CACHE_HPP_
+#ifndef SRC_KVCACHE_KVCACHE_HPP_
+#define SRC_KVCACHE_KVCACHE_HPP_
 
 #include <chrono>
 #include <string>
 
-namespace cache {
+namespace kvcache {
 
 struct Cache {
     std::string key;
@@ -39,6 +39,8 @@ Cache read(const std::string& key);
 
 void write(const std::string& key, const std::string& value);
 
-}  // namespace cache
+void drop(const std::string& key);
 
-#endif  // SRC_CACHE_CACHE_HPP_
+}  // namespace kvcache
+
+#endif  // SRC_KVCACHE_KVCACHE_HPP_
