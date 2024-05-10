@@ -42,12 +42,12 @@ bool tarfile::is_tarfile(const std::filesystem::path& path) {
     }
 
     if (!std::filesystem::exists(path)) {
-        auto detail = std::format("The path={} does not exist", path.string());
+        auto detail = std::format("The path {} does not exist", path.string());
         throw std::runtime_error(detail);
     }
 
     if (!std::filesystem::is_regular_file(path)) {
-        auto detail = std::format("The path={} is not a regular file", path.string());
+        auto detail = std::format("The path {} is not a regular file", path.string());
         throw std::runtime_error(detail);
     }
 
@@ -70,12 +70,12 @@ std::filesystem::path tarfile::extract(const std::filesystem::path& path) {
     }
 
     if (!std::filesystem::exists(path)) {
-        auto detail = std::format("The path={} does not exist", path.string());
+        auto detail = std::format("The path {} does not exist", path.string());
         throw std::runtime_error(detail);
     }
 
     if (!std::filesystem::is_regular_file(path)) {
-        auto detail = std::format("The path={} is not a regular file", path.string());
+        auto detail = std::format("The path {} is not a regular file", path.string());
         throw std::runtime_error(detail);
     }
 
@@ -92,7 +92,7 @@ std::filesystem::path tarfile::extract(const std::filesystem::path& path) {
         descriptor.attr("__exit__")(py::none(), py::none(), py::none());
         std::filesystem::remove_all(destination);
 
-        auto detail = std::format("Looks like the file={} is not a TAR archive", path.string());
+        auto detail = std::format("Looks like the file {} is not a TAR archive", path.string());
         throw std::runtime_error(detail);
     }
 

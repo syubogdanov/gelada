@@ -104,14 +104,14 @@ std::filesystem::path bitbucket::clone(const std::string& username, const std::s
 
     if (!__bitbucket::username::ok(username)) {
         auto detail = std::format(
-            "The username={} does not meet the Bitbucket naming requirements",
+            "The username {} does not meet the Bitbucket naming requirements",
             username);
         throw std::runtime_error(detail);
     }
 
     if (!__bitbucket::repository::ok(username)) {
         auto detail = std::format(
-            "The repository={} does not meet the Bitbucket naming requirements",
+            "The repository {} does not meet the Bitbucket naming requirements",
             username);
         throw std::runtime_error(detail);
     }
@@ -129,7 +129,7 @@ std::filesystem::path bitbucket::clone(const std::string& username, const std::s
     }
 
     auto detail = std::format(
-        "Failed to clone the Bitbucket repository={}/{}",
+        "Failed to clone the Bitbucket repository {}/{}",
         username,
         repository);
     throw std::runtime_error(detail);

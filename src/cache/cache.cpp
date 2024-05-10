@@ -72,7 +72,7 @@ bool cache::exists(const std::string& key) {
 
 cache::Cache cache::read(const std::string& key) {
     if (!cache::exists(key)) {
-        auto detail = std::format("The cache is missing for key={}", key);
+        auto detail = std::format("The cache is missing for key {}", key);
         throw std::runtime_error(detail);
     }
 

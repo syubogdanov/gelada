@@ -38,7 +38,7 @@ rapidjson::Document adapters::to_rapidjson::read_yaml(const std::filesystem::pat
     rapidjson::Document workflow;
 
     if (workflow.Parse<0>(emitter.c_str() + 1).HasParseError()) {
-        auto detail = std::format("The path={} contains an invalid YAML document", path.string());
+        auto detail = std::format("The path {} contains an invalid YAML document", path.string());
         throw std::runtime_error(detail);
     }
 

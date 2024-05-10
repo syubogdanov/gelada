@@ -35,7 +35,7 @@ rapidjson::Document rapidjson::filesystem::read(const std::filesystem::path& pat
     rapidjson::Document document;
 
     if (document.Parse<0>(pathlib::read_text(path).c_str()).HasParseError()) {
-        auto detail = std::format("The path={} contains an invalid JSON document", path.string());
+        auto detail = std::format("The path {} contains an invalid JSON document", path.string());
         throw std::runtime_error(detail);
     }
 
@@ -49,7 +49,7 @@ void rapidjson::filesystem::write(
     std::ofstream stream(path);
 
     if (!stream.is_open()) {
-        auto detail = std::format("Failed to open the file={}", path.string());
+        auto detail = std::format("Failed to open the file {}", path.string());
         throw std::runtime_error(detail);
     }
 
@@ -57,7 +57,7 @@ void rapidjson::filesystem::write(
     rapidjson::Writer writer(osw);
 
     if (!document.Accept(writer)) {
-        auto detail = std::format("Failed to write the JSON document to a file={}", path.string());
+        auto detail = std::format("Failed to write the JSON document to a file {}", path.string());
         throw std::runtime_error(detail);
     }
 }

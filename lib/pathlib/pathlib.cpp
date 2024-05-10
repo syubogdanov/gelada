@@ -28,19 +28,19 @@
 
 std::string pathlib::read_text(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path)) {
-        auto detail = std::format("The path={} does not exist", path.string());
+        auto detail = std::format("The path {} does not exist", path.string());
         throw std::runtime_error(detail);
     }
 
     if (!std::filesystem::is_regular_file(path)) {
-        auto detail = std::format("The path={} is not a regular file", path.string());
+        auto detail = std::format("The path {} is not a regular file", path.string());
         throw std::runtime_error(detail);
     }
 
     std::ifstream stream(path);
 
     if (!stream.is_open()) {
-        auto detail = std::format("Failed to open the path={}", path.string());
+        auto detail = std::format("Failed to open the path {}", path.string());
         throw std::runtime_error(detail);
     }
 

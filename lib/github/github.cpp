@@ -104,14 +104,14 @@ std::filesystem::path github::clone(const std::string& username, const std::stri
 
     if (!__github::username::ok(username)) {
         auto detail = std::format(
-            "The username={} does not meet the GitHub naming requirements",
+            "The username {} does not meet the GitHub naming requirements",
             username);
         throw std::runtime_error(detail);
     }
 
     if (!__github::repository::ok(username)) {
         auto detail = std::format(
-            "The repository={} does not meet the GitHub naming requirements",
+            "The repository {} does not meet the GitHub naming requirements",
             username);
         throw std::runtime_error(detail);
     }
@@ -128,6 +128,6 @@ std::filesystem::path github::clone(const std::string& username, const std::stri
         catch (const std::exception&) {}
     }
 
-    auto detail = std::format("Failed to clone the GitHub repository={}/{}", username, repository);
+    auto detail = std::format("Failed to clone the GitHub repository {}/{}", username, repository);
     throw std::runtime_error(detail);
 }

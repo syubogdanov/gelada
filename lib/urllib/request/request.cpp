@@ -58,7 +58,7 @@ std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
     catch (const std::exception& exc) {
         std::filesystem::remove(destination);
 
-        auto detail = std::format("Failed to download a file using the URL={}", url);
+        auto detail = std::format("Failed to download a file using the URL {}", url);
         throw std::runtime_error(detail);
     }
 }

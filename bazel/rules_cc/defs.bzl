@@ -60,7 +60,7 @@ def embed(name):
           files as the `additional_compiler_inputs` attribute
     """
     if not _is_source_file(name):
-        detail = "The path={} is not a C++ source file".format(name)
+        detail = "The path {} is not a C++ source file".format(name)
         fail(detail)
 
     out = _replace_extension(name, ".gelada.cpp")
