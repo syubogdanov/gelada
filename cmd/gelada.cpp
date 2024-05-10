@@ -20,6 +20,7 @@
 // limitations under the License.
 
 #include <cstdlib>
+#include <exception>
 #include <format>
 
 #include <argparse/argparse.hpp>
@@ -27,6 +28,7 @@
 #include "etc/copyright/copyright.hpp"
 #include "etc/program/program.hpp"
 
+#include "lib/logging/logging.hpp"
 #include "lib/threading/hardware/hardware.hpp"
 
 namespace args {
@@ -42,6 +44,7 @@ int main(int argc, char* argv[]) {
         etc::program::version);
 
     cli.add_argument("workflow")
+        .help("the path to the workflow file")
         .metavar("WORKFLOW");
 
     cli.add_argument("-dof", "--degree-of-freedom")
@@ -62,6 +65,14 @@ int main(int argc, char* argv[]) {
         "{}, Copyright (c) 2024 {}",
         etc::copyright::license,
         etc::copyright::author));
+
+    try {
+        cli.parse_args(argc, argv);
+    }
+    catch (const std::exception& exc) {
+        logging::error(exc.what());
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

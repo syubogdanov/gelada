@@ -29,6 +29,7 @@ cc_binary(
     deps = [
         "//etc/copyright",
         "//etc/program",
+        "//lib/logging",
         "//lib/threading/hardware",
         "@argparse",
     ],
