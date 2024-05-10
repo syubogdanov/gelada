@@ -32,10 +32,4 @@ rapidjson::Document read_yaml(const std::filesystem::path& path);
 
 }  // namespace adapters::to_rapidjson
 
-namespace adapters::from_rapidjson {
-
-void write_yaml(const rapidjson::Document& document, const std::filesystem::path& path);
-
-}  // namespace adapters::from_rapidjson
-
 #endif  // LIB_ADAPTERS_YAML_JSON_YAML_JSON_HPP_

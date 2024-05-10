@@ -27,7 +27,6 @@
 
 #include <experimental/embed>
 
-#include "lib/adapters/yaml-json/yaml-json.hpp"
 #include "lib/tempfile/tempfile.hpp"
 
 #include "src/ext/rapidjson/filesystem/filesystem.hpp"
@@ -94,15 +93,6 @@ std::filesystem::path documents::summary::write_json(const rapidjson::Document& 
 
     auto destination = tempfile::mkstemp();
     rapidjson::filesystem::write(summary, destination);
-
-    return destination;
-}
-
-std::filesystem::path documents::summary::write_yaml(const rapidjson::Document& summary) {
-    __documents::summary::specification::validate(summary);
-
-    auto destination = tempfile::mkstemp();
-    adapters::from_rapidjson::write_yaml(summary, destination);
 
     return destination;
 }

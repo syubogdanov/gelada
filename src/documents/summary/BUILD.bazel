@@ -29,7 +29,6 @@ cc_library(
     srcs = [embed("summary.cpp")],
     hdrs = ["summary.hpp"],
     deps = [
-        "//lib/adapters/yaml-json",
         "//lib/tempfile",
         "//src/ext/rapidjson/filesystem",
         "//src/ext/rapidjson/schema",

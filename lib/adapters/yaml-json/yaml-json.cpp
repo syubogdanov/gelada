@@ -44,10 +44,3 @@ rapidjson::Document adapters::to_rapidjson::read_yaml(const std::filesystem::pat
 
     return workflow;
 }
-
-void adapters::from_rapidjson::write_yaml(
-    const rapidjson::Document& document,
-    const std::filesystem::path& path
-) {
-    // FIXME(syubogdanov)
-}

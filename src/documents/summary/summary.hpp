@@ -31,8 +31,6 @@ namespace documents::summary {
 
 std::filesystem::path write_json(const rapidjson::Document& summary);
 
-std::filesystem::path write_yaml(const rapidjson::Document& summary);
-
 }  // namespace documents::summary
 
 #endif  // SRC_DOCUMENTS_SUMMARY_SUMMARY_HPP_
