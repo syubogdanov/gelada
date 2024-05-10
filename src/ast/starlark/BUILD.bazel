@@ -21,10 +21,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-load("@pybind11_bazel//:build_defs.bzl", "pybind_library")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 load("//bazel/rules_cc:defs.bzl", "embed")
 
-pybind_library(
+cc_library(
     name = "starlark",
     srcs = [embed("starlark.cpp")],
     hdrs = ["starlark.hpp"],
@@ -33,6 +33,7 @@ pybind_library(
         "//src/errors/filesystem",
         "//src/errors/python",
         "//src/ext/pybind11/heavy",
+        "@rules_python//python/cc:current_py_cc_headers"
         "@stdlib",
     ],
     additional_compiler_inputs = ["starlark.py"],
