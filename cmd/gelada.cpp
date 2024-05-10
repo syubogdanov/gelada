@@ -79,14 +79,14 @@ int main(int argc, char* argv[]) {
     }
 
     auto threads = cli.get<int>("threads");
-    if (threads < 0) {
-        logging::error("The number of threads must be non-negative");
+    if (threads <= 0) {
+        logging::error("The number of threads must be positive");
         return EXIT_FAILURE;
     }
 
     auto dof = cli.get<int>("degree-of-freedom");
-    if (dof < 0) {
-        logging::error("The degree of freedom must be non-negative");
+    if (dof <= 0) {
+        logging::error("The degree of freedom must be positive");
         return EXIT_FAILURE;
     }
 
