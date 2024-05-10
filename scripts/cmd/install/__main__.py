@@ -45,10 +45,12 @@ def syspaths() -> list[Path]:
 
 
 def main() -> int:
-    filename: str = "gelada.exe" if is_windows() else "gelada"
-    executable = GELADA_ROOT / "bazel-bin" / "cmd" / filename
+    try:
+        filename: str = "gelada.exe" if is_windows() else "gelada"
+        executable = Path(f"bazel-bin/cmd/{filename}")
+        executable = executable.resolve(strict=True)
 
-    if not executable.exists():
+    except RuntimeError:
         logging.error("The executable was not found")
         return EXIT_FAILURE
 
