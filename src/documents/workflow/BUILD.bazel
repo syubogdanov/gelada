@@ -21,18 +21,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("//bazel/rules_cc:defs.bzl", "embed")
 
-cc_binary(
-    name = "gelada",
-    srcs = ["gelada.cpp"],
+cc_library(
+    name = "workflow",
+    srcs = [embed("workflow.cpp")],
+    hdrs = ["workflow.hpp"],
     deps = [
-        "//etc/copyright",
-        "//etc/program",
-        "//lib/logging",
-        "//lib/threading/hardware",
-        "//src/documents/workflow",
-        "@argparse",
+        "//lib/pathlib",
+        "//src/ext/rapidjson/filesystem",
+        "//src/ext/rapidjson/schema",
+        "//src/ext/yaml-cpp/adapters",
         "@rapidjson",
+        "@stdlib",
     ],
+    additional_compiler_inputs = ["protocol.json"],
+    visibility = ["//visibility:public"],
 )

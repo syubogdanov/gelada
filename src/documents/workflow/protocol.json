@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "jobs": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "tasks": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "string"
+                      },
+                      "repo": {
+                        "type": "string"
+                      },
+                      "host": {
+                        "type": "string",
+                        "enum": [
+                          "Bitbucket",
+                          "GitHub"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "user",
+                      "repo",
+                      "host"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "path"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "name",
+            "tasks"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "jobs"
+  ]
+}

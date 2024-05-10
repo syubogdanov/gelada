@@ -21,18 +21,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
-cc_binary(
-    name = "gelada",
-    srcs = ["gelada.cpp"],
-    deps = [
-        "//etc/copyright",
-        "//etc/program",
-        "//lib/logging",
-        "//lib/threading/hardware",
-        "//src/documents/workflow",
-        "@argparse",
-        "@rapidjson",
-    ],
+cc_library(
+    name = "yaml-cpp",
+    srcs = ["yaml-cpp.cpp"],
+    hdrs = ["yaml-cpp.hpp"],
+    visibility = ["//visibility:public"],
 )

@@ -1,0 +1,44 @@
+//  ██████╗ ███████╗██╗      █████╗ ██████╗  █████╗
+// ██╔════╝ ██╔════╝██║     ██╔══██╗██╔══██╗██╔══██╗
+// ██║  ███╗█████╗  ██║     ███████║██║  ██║███████║
+// ██║   ██║██╔══╝  ██║     ██╔══██║██║  ██║██╔══██║
+// ╚██████╔╝███████╗███████╗██║  ██║██████╔╝██║  ██║
+//  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝
+//
+// Copyright 2024 Sergei Bogdanov <syubogdanov@outlook.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#ifndef SRC_DOCUMENTS_WORKFLOW_WORKFLOW_HPP_
+#define SRC_DOCUMENTS_WORKFLOW_WORKFLOW_HPP_
+
+#include <cstddef>
+#include <filesystem>
+
+#include <rapidjson/document.h>
+
+namespace documents::workflow {
+
+rapidjson::Document read(const std::filesystem::path& path);
+
+}  // namespace documents::workflow
+
+namespace documents::workflow::count {
+
+std::size_t checks(const rapidjson::Document& workflow);
+
+std::size_t tasks(const rapidjson::Document& workflow);
+
+}  // namespace documents::workflow::count
+
+#endif  // SRC_DOCUMENTS_WORKFLOW_WORKFLOW_HPP_

@@ -21,15 +21,19 @@
 
 #include <cstdlib>
 #include <exception>
+#include <filesystem>
 #include <format>
 
 #include <argparse/argparse.hpp>
+#include <rapidjson/document.h>
 
 #include "etc/copyright/copyright.hpp"
 #include "etc/program/program.hpp"
 
 #include "lib/logging/logging.hpp"
 #include "lib/threading/hardware/hardware.hpp"
+
+#include "src/documents/workflow/workflow.hpp"
 
 namespace args {
 
@@ -83,6 +87,27 @@ int main(int argc, char* argv[]) {
     auto dof = cli.get<int>("degree-of-freedom");
     if (dof < 0) {
         logging::error("The degree of freedom must be non-negative");
+        return EXIT_FAILURE;
+    }
+
+    std::filesystem::path path_to_workflow = cli.get<std::string>("workflow");
+    if (!std::filesystem::exists(path_to_workflow)) {
+        logging::error("The workflow does not exist");
+        return EXIT_FAILURE;
+    }
+
+    if (!std::filesystem::is_regular_file(path_to_workflow)) {
+        logging::error("The workflow is not a regular file");
+        return EXIT_FAILURE;
+    }
+
+    rapidjson::Document workflow;
+
+    try {
+        workflow = documents::workflow::read(path_to_workflow);
+    }
+    catch (const std::exception& exc) {
+        logging::error(exc.what());
         return EXIT_FAILURE;
     }
 
