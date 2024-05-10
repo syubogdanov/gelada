@@ -32,14 +32,14 @@ namespace logging {
 
 template<typename Text>
 void error(const Text& detail) {
-    auto prefix = "\033[0;31mERROR:\033[0m   ";
+    auto prefix = "\033[0;31mERROR:\033[0m ";
     std::lock_guard lock(mutex);
     std::cout << prefix << detail << std::endl;
 }
 
 template<typename Text>
 void info(const Text& detail) {
-    auto prefix = "\033[0;32mINFO:\033[0m    ";
+    auto prefix = "\033[0;32mINFO:\033[0m ";
     std::lock_guard lock(mutex);
     std::cout << prefix << detail << std::endl;
 }
@@ -53,7 +53,7 @@ void warning(const Text& detail) {
 
 template<typename Text>
 void trace(const Text& detail) {
-    auto prefix = "\033[0;34mTRACE:\033[0m   ";
+    auto prefix = "\033[0;34mTRACE:\033[0m ";
     std::lock_guard lock(mutex);
     std::cout << prefix << detail << std::endl;
 }
