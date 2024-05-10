@@ -10,6 +10,7 @@
 | [rapidjson][21]    | [@Tencent][22]     | [GitHub][23]   | [rapidjson][24]            | C++ Library  |
 | [cppitertools][25] | [@ryanhaining][26] | [GitHub][27]   | [BSD-2-Clause license][28] | C++ Library  |
 | [yaml-cpp][29]     | [@jbeder][30]      | [GitHub][31]   | [MIT][32]                  | C++ Library  |
+| [thread-pool][33]  | [@bshoshany][34]   | [GitHub][35]   | [MIT][36]                  | C++ Library  |
 
 [01]: https://www.flaticon.com/free-icon/baboon_427412
 [02]: https://www.flaticon.com/authors/freepik
@@ -50,3 +51,8 @@
 [30]: https://github.com/jbeder
 [31]: https://github.com
 [32]: https://github.com/jbeder/yaml-cpp/blob/master/LICENSE
+
+[33]: https://github.com/bshoshany/thread-pool
+[34]: https://github.com/bshoshany
+[35]: https://github.com
+[36]: https://github.com/bshoshany/thread-pool/blob/master/LICENSE.txt
