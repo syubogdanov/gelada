@@ -22,16 +22,11 @@
 #include "src/documents/workflow/workflow.hpp"
 
 #include <format>
-#include <fstream>
-#include <iterator>
-#include <numeric>
 #include <stdexcept>
 #include <string>
 #include <unordered_set>
 
 #include <experimental/embed>
-
-#include "lib/pathlib/pathlib.hpp"
 
 #include "src/ext/rapidjson/filesystem/filesystem.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"

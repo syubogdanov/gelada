@@ -33,8 +33,6 @@
 #include <experimental/embed>
 
 #include <rapidjson/document.h>
-#include <rapidjson/ostreamwrapper.h>
-#include <rapidjson/writer.h>
 
 #include "src/errors/filesystem/filesystem.hpp"
 
@@ -110,13 +108,8 @@ void cache::write(const std::string& key, const std::string& value) {
         return;
     }
 
-    std::ofstream stream(path);
-    if (!stream.good()) {
-        return;
+    try {
+        rapidjson::filesystem::write(document, path);
     }
-
-    rapidjson::OStreamWrapper osw(stream);
-    rapidjson::Writer writer(osw);
-
-    document.Accept(writer);
+    catch (const std::exception&) {}
 }

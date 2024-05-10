@@ -30,6 +30,8 @@ namespace YAML::adapters::rapidjson {
 
 ::rapidjson::Document read(const std::filesystem::path& path);
 
+void write(const ::rapidjson::Document& document, const std::filesystem::path& path);
+
 }  // namespace YAML::adapters::rapidjson
 
 #endif  // SRC_EXT_YAML_CPP_ADAPTERS_ADAPTERS_HPP_

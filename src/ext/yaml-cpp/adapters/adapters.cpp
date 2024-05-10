@@ -44,3 +44,10 @@
 
     return workflow;
 }
+
+void YAML::adapters::rapidjson::write(
+    const ::rapidjson::Document& document,
+    const std::filesystem::path& path
+) {
+    // FIXME(syubogdanov)
+}

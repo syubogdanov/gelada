@@ -1,0 +1,71 @@
+{
+    "$schema":  "http://json-schema.org/draft-04/schema#",
+    "type":  "object",
+    "additionalProperties":  false,
+    "properties":  {
+        "summary":  {
+            "type":  "array",
+            "items":  [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "submissions": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "cheater": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "cheater",
+                                "author"
+                            ]
+                        },
+                        "matchings": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "cheated": {
+                                            "type": "string"
+                                        },
+                                        "confidence": {
+                                            "type": "number"
+                                        },
+                                        "sources": {
+                                            "type": "array",
+                                            "items": [
+                                                {
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "cheated",
+                                        "confidence",
+                                        "sources"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "submissions",
+                        "matchings"
+                    ]
+                }
+            ]
+        }
+    },
+    "required":  [
+        "summary"
+    ]
+}

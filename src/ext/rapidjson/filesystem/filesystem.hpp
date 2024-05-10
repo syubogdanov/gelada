@@ -30,6 +30,8 @@ namespace rapidjson::filesystem {
 
 rapidjson::Document read(const std::filesystem::path& path);
 
+void write(const rapidjson::Document& document, const std::filesystem::path& path);
+
 }  // namespace rapidjson::filesystem
 
 #endif  // SRC_EXT_RAPIDJSON_FILESYSTEM_FILESYSTEM_HPP_
