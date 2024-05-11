@@ -56,7 +56,7 @@ const int threads = threading::hardware::threads();
 
 namespace args::threshold {
 
-constexpr double alpha = 0.25;
+constexpr double alpha = 0.30;
 
 }  // namespace args::threshold
 
@@ -68,7 +68,7 @@ constexpr const int dof = 3;
 
 namespace warnings::limit::threshold {
 
-constexpr double alpha = 0.10;
+constexpr double alpha = 0.15;
 
 }  // namespace warnings::limit::threshold
 
@@ -324,7 +324,7 @@ int main(int argc, char* argv[]) {
                             }
 
                             if (skip) {
-                                break;
+                                continue;
                             }
 
                             auto score = math::probability::gmean(probabilities);
