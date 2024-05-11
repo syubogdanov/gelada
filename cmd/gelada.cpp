@@ -54,11 +54,42 @@ const int threads = threading::hardware::threads();
 
 }  // namespace args
 
+namespace args::threshold {
+
+constexpr double alpha = 0.25;
+
+}  // namespace args::threshold
+
 namespace warnings::limit {
 
 constexpr const int dof = 3;
 
 }  // namespace warnings::limit
+
+namespace warnings::limit::threshold {
+
+constexpr double alpha = 0.10;
+
+}  // namespace warnings::limit::threshold
+
+namespace warnings::buffer {
+
+std::vector<std::string> storage;
+
+void flush(void) {
+    if (storage.empty()) {
+        return;
+    }
+
+    for (const auto& warning : storage) {
+        logging::warning(warning);
+    }
+
+    logging::newline();
+    storage.clear();
+}
+
+} // namespace warnings::buffer
 
 int main(int argc, char* argv[]) {
     auto program = Py_DecodeLocale(argv[0], NULL);
@@ -83,6 +114,13 @@ int main(int argc, char* argv[]) {
     cli.add_argument("workflow")
         .help("the path to the workflow file")
         .metavar("WORKFLOW");
+
+    cli.add_argument("-at", "--alpha-threshold")
+        .default_value(args::threshold::alpha)
+        .help("specifies the alpha threshold")
+        .metavar("AT")
+        .nargs(1)
+        .scan<'g', double>();
 
     cli.add_argument("-dof", "--degree-of-freedom")
         .default_value(args::dof)
@@ -119,32 +157,16 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    auto alpha_threshold = cli.get<double>("alpha-threshold");
+    if (alpha_threshold < 0) {
+        logging::error("The alpha-threshold must be non-negative");
+        return EXIT_FAILURE;
+    }
+
     auto dof = cli.get<int>("degree-of-freedom");
     if (dof <= 0) {
         logging::error("The degree of freedom must be positive");
         return EXIT_FAILURE;
-    }
-
-    if (dof > warnings::limit::dof) {
-        auto detail = std::format(
-            "Recommended to use the DOF no higher than {}",
-            warnings::limit::dof);
-
-        logging::warning(detail);
-        logging::newline();
-    }
-
-    auto single_check = cli.get<bool>("single-check");
-    if (single_check && dof != 1) {
-        logging::warning("The '--single-check' option is active only with DOF equal to one");
-        logging::newline();
-
-        single_check = false;
-    }
-
-    if (!single_check && dof == 1) {
-        logging::warning("The DOF is equal to one but '--single-check' option is not used");
-        logging::newline();
     }
 
     auto threads = cli.get<int>("threads");
@@ -152,6 +174,32 @@ int main(int argc, char* argv[]) {
         logging::error("The number of threads must be positive");
         return EXIT_FAILURE;
     }
+
+    if (alpha_threshold <= warnings::limit::threshold::alpha) {
+        warnings::buffer::storage.push_back(std::format(
+            "Recommended to use the alpha-threshold no less than {}",
+            warnings::limit::threshold::alpha));
+    }
+
+    if (dof > warnings::limit::dof) {
+        warnings::buffer::storage.push_back(std::format(
+            "Recommended to use the DOF no higher than {}",
+            warnings::limit::dof));
+    }
+
+    auto single_check = cli.get<bool>("single-check");
+    if (single_check && dof != 1) {
+        single_check = false;
+        auto detail = "The '--single-check' option is active only with DOF equal to one";
+        warnings::buffer::storage.push_back(detail);
+    }
+
+    if (!single_check && dof == 1) {
+        auto detail = "The DOF is equal to one but '--single-check' option is not used";
+        warnings::buffer::storage.push_back(detail);
+    }
+
+    warnings::buffer::flush();
 
     std::filesystem::path path_to_workflow = cli.get<std::string>("workflow");
     if (!std::filesystem::exists(path_to_workflow)) {
@@ -250,6 +298,9 @@ int main(int argc, char* argv[]) {
                         auto combinations = itertools::combinations(rhs_files.size(), size);
 
                         for (const auto& indices : combinations) {
+                            candidates.clear();
+                            probabilities.clear();
+
                             for (const auto& ridx : indices) {
                                 candidates.push_back(rhs_files[ridx]);
 
@@ -262,9 +313,6 @@ int main(int argc, char* argv[]) {
                                 suspects = candidates;
                                 confidence = score;
                             }
-
-                            candidates.clear();
-                            probabilities.clear();
                         }
                     }
 
