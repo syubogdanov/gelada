@@ -44,20 +44,16 @@ def _is_source_file(path):
 def _replace_extension(path, extension):
     return path.removesuffix(_get_extension(path)) + extension
 
-def embed(name):
+def embed(name, *args):
     """
     Activates `std::embed` calls before compiling the target.
 
     Args:
         name: the label of the file that requires embeddings
+        *args: the labels to be embedded
 
     Returns:
         the label of the file in which the embedding was performed
-
-    Notes:
-        - The macro is not hermetic itself, since no files are specified
-          for embedding. It is assumed that the user will specify these
-          files as the `additional_compiler_inputs` attribute
     """
     if not _is_source_file(name):
         detail = "The path {} is not a C++ source file".format(name)
@@ -68,7 +64,7 @@ def embed(name):
 
     native.genrule(
         name = ".embed/{}".format(name),
-        srcs = [name],
+        srcs = [name] + list(args),
         outs = [out],
         cmd = "{} {} {}".format(
             "$(location {})".format(tool),
