@@ -122,6 +122,10 @@ int main(int argc, char* argv[]) {
         .nargs(1)
         .scan<'g', double>();
 
+    cli.add_argument("-dn", "--disable-normalization")
+        .help("disables AST normalization")
+        .flag();
+
     cli.add_argument("-dof", "--degree-of-freedom")
         .default_value(args::dof)
         .help("limits the degree of freedom")
@@ -162,6 +166,8 @@ int main(int argc, char* argv[]) {
         logging::error("The alpha-threshold must be non-negative");
         return EXIT_FAILURE;
     }
+
+    auto disable_normalization = cli.get<bool>("disable-normalization");
 
     auto dof = cli.get<int>("degree-of-freedom");
     if (dof <= 0) {
@@ -227,7 +233,9 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    documents::execflow::parallel::normalize(execflow, threads);
+    if (!disable_normalization) {
+        documents::execflow::parallel::normalize(execflow, threads);
+    }
 
     rapidjson::Document summary = documents::summary::sketch();
     std::mutex docmutex;
@@ -272,7 +280,7 @@ int main(int argc, char* argv[]) {
 
             for (std::size_t lidx = 0; lidx < lhs_files.size(); ++lidx) {
                 for (std::size_t ridx = 0; ridx < rhs_files.size(); ++ridx) {
-                    pool.submit_task([&, lidx, ridx]{
+                    auto task = pool.submit_task([&, lidx, ridx]{
                         auto lhs = lhs_files[lidx];
                         auto rhs = rhs_files[ridx];
 
@@ -285,7 +293,7 @@ int main(int argc, char* argv[]) {
             pool.wait();
 
             for (std::size_t lidx = 0; lidx < lhs_files.size(); ++lidx) {
-                pool.submit_task([&, lidx]{
+                auto task = pool.submit_task([&, lidx]{
                     auto lhs = lhs_files[lidx];
 
                     std::vector<std::filesystem::path> suspects;
@@ -298,14 +306,25 @@ int main(int argc, char* argv[]) {
                         auto combinations = itertools::combinations(rhs_files.size(), size);
 
                         for (const auto& indices : combinations) {
+                            bool skip = false;
+
                             candidates.clear();
                             probabilities.clear();
 
                             for (const auto& ridx : indices) {
-                                candidates.push_back(rhs_files[ridx]);
-
                                 auto prob = matrix[lidx][ridx];
+
+                                if (prob < alpha_threshold) {
+                                    skip = true;
+                                    break;
+                                }
+
+                                candidates.push_back(rhs_files[ridx]);
                                 probabilities.push_back(prob);
+                            }
+
+                            if (skip) {
+                                break;
                             }
 
                             auto score = math::probability::gmean(probabilities);
