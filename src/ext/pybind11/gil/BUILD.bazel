@@ -22,27 +22,11 @@ limitations under the License.
 """
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
-    name = "execflow",
-    srcs = [embed("execflow.cpp")],
-    hdrs = ["execflow.hpp"],
-    deps = [
-        "//lib/bitbucket",
-        "//lib/github",
-        "//lib/itertools",
-        "//src/errors/filesystem",
-        "//src/ext/pybind11/gil",
-        "//src/ext/rapidjson/build",
-        "//src/ext/rapidjson/schema",
-        "//src/kvcache",
-        "//src/shutil",
-        "@rapidjson",
-        "@rules_python//python/cc:current_py_cc_headers",
-        "@stdlib",
-        "@thread-pool",
-    ],
-    additional_compiler_inputs = ["protocol.json"],
+    name = "gil",
+    srcs = ["gil.cpp"],
+    hdrs = ["gil.hpp"],
+    deps = ["@rules_python//python/cc:current_py_cc_headers"],
     visibility = ["//visibility:public"],
 )

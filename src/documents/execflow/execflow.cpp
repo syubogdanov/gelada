@@ -44,6 +44,7 @@
 #include "lib/itertools/itertools.hpp"
 
 #include "src/errors/filesystem/filesystem.hpp"
+#include "src/ext/pybind11/gil/gil.hpp"
 #include "src/ext/rapidjson/build/build.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
 #include "src/kvcache/kvcache.hpp"
@@ -196,7 +197,7 @@ auto fetch_latest(const rapidjson::Document& workflow, std::size_t threads) {
 
         if (host == "GitHub") {
             downloads[name] = pool.submit_task([key, user, repo]{
-                // TODO Python (?)
+                GIL::EnsureState guard;
 
                 auto path = github::clone(user, repo);
                 __documents::execflow::cache::write(key, path);
@@ -208,7 +209,7 @@ auto fetch_latest(const rapidjson::Document& workflow, std::size_t threads) {
 
         if (host == "Bitbucket") {
             downloads[name] = pool.submit_task([key, user, repo]{
-                // TODO Python (?)
+                GIL::EnsureState guard;
 
                 auto path = bitbucket::clone(user, repo);
                 __documents::execflow::cache::write(key, path);
