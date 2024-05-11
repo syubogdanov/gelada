@@ -26,10 +26,7 @@
 #include "src/ast/python/python.hpp"
 #include "src/ast/starlark/starlark.hpp"
 
-std::filesystem::path ast::anylang::normalize(
-    const std::filesystem::path& path,
-    bool inplace = false
-) {
+std::filesystem::path ast::anylang::normalize(const std::filesystem::path& path, bool inplace) {
     if (ast::starlark::isinstance(path)) {
         return ast::starlark::normalize(path, inplace);
     }
