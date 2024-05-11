@@ -19,6 +19,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include <cstdlib>
 #include <exception>
 #include <filesystem>
@@ -51,6 +54,12 @@ constexpr const int dof = 3;
 }  // namespace warnings::limit
 
 int main(int argc, char* argv[]) {
+    auto program = Py_DecodeLocale(argv[0], NULL);
+    if (!program) {
+        logging::error("Failed to decode argv[0]");
+        return EXIT_FAILURE;
+    }
+
     auto cli = argparse::ArgumentParser(
         etc::program::name,
         etc::program::version);
@@ -118,6 +127,15 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    Py_SetProgramName(program);
+    Py_Initialize();
+
+    /* Unlock the GIL for threads */
+    auto GIL = PyEval_SaveThread();
+
+    /* Assert the unlocked GIL */
+    assert(!PyGILState_Check());
+
     rapidjson::Document execflow;
     rapidjson::Document workflow;
 
@@ -129,6 +147,10 @@ int main(int argc, char* argv[]) {
         logging::error(exc.what());
         return EXIT_FAILURE;
     }
+
+    PyEval_RestoreThread(GIL);
+    Py_Finalize();
+    PyMem_RawFree(program);
 
     return EXIT_SUCCESS;
 }
