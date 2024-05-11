@@ -26,7 +26,10 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "kvcache",
-    srcs = [embed("kvcache.cpp")],
+    srcs = [embed(
+        "kvcache.cpp",
+        "protocol.json"
+    )],
     hdrs = ["kvcache.hpp"],
     deps = [
         "//src/errors/filesystem",
@@ -36,6 +39,5 @@ cc_library(
         "@rapidjson",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["protocol.json"],
     visibility = ["//visibility:public"],
 )

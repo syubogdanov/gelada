@@ -29,6 +29,7 @@
 #include <format>
 #include <functional>
 #include <future>
+#include <iostream>
 #include <mutex>
 #include <string>
 #include <stdexcept>
@@ -41,6 +42,7 @@
 
 #include "lib/itertools/itertools.hpp"
 
+#include "src/ast/anylang/anylang.hpp"
 #include "src/bitbucket/bitbucket.hpp"
 #include "src/errors/filesystem/filesystem.hpp"
 #include "src/ext/rapidjson/build/build.hpp"
@@ -282,4 +284,35 @@ rapidjson::Document documents::execflow::parallel::from_workflow(
     __documents::execflow::specification::validate(execflow);
 
     return execflow;
+}
+
+void documents::execflow::parallel::normalize(
+    const rapidjson::Document& execflow,
+    std::size_t threads
+) {
+    if (threads == 0) {
+        constexpr auto detail = "The number of threads must be positive";
+        throw std::runtime_error(detail);
+    }
+
+    BS::thread_pool pool(threads);
+    std::vector<std::future<void>> tasks;
+
+    for (const auto& submission : execflow["submissions"].GetArray()) {
+        std::filesystem::path dir = submission["path"].GetString();
+
+        for (const auto& entity : std::filesystem::recursive_directory_iterator(dir)) {
+            if (std::filesystem::is_regular_file(entity)) {
+                tasks.push_back(pool.submit_task([entity]{
+                    constexpr bool inplace = true;
+                    ast::anylang::normalize(entity, inplace);
+                }));
+            }
+        }
+    }
+
+    /* Rethrow exceptions */
+    for (auto& task : tasks) {
+        task.get();
+    }
 }

@@ -26,13 +26,15 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "request",
-    srcs = [embed("request.cpp")],
+    srcs = [embed(
+        "request.cpp",
+        "urlretrieve.py",
+    )],
     hdrs = ["request.hpp"],
     deps = [
         "//lib/tempfile",
         "//src/pylada",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["urlretrieve.py"],
     visibility = ["//visibility:public"],
 )

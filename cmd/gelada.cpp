@@ -141,7 +141,9 @@ int main(int argc, char* argv[]) {
 
     try {
         workflow = documents::workflow::read(path_to_workflow);
+
         execflow = documents::execflow::parallel::from_workflow(workflow, threads);
+        documents::execflow::parallel::normalize(execflow, threads);
     }
     catch (const std::exception& exc) {
         logging::error(exc.what());

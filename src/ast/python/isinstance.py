@@ -23,18 +23,26 @@ limitations under the License.
 
 import ast
 
+from pathlib import Path
+
 
 EXIT_SUCCESS: int = 0
 EXIT_FAILURE: int = 1
 
 
 def main() -> tuple[int, str]:
+    path = Path(r"%PATH%")
+
+    text = path.read_text(
+        encoding="utf-8",
+        errors="replace",
+    )
+
     try:
-        path = r"%PATH%"
-        ast.parse(path)
+        ast.parse(text, path)
 
     except Exception:
-        return EXIT_SUCCESS, "False"
+        return (EXIT_SUCCESS, "False")
 
     else:
-        return EXIT_SUCCESS, "True"
+        return (EXIT_SUCCESS, "True")

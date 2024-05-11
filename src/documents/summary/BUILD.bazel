@@ -26,7 +26,10 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "summary",
-    srcs = [embed("summary.cpp")],
+    srcs = [embed(
+        "summary.cpp",
+        "protocol.json",
+    )],
     hdrs = ["summary.hpp"],
     deps = [
         "//lib/tempfile",
@@ -35,6 +38,5 @@ cc_library(
         "@rapidjson",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["protocol.json"],
     visibility = ["//visibility:public"],
 )

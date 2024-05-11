@@ -99,11 +99,15 @@ class YieldInspector(Inspector):
 def main() -> tuple[int, str]:
     path = Path(r"%PATH%")
 
-    try:
-        text = path.read_text(errors="ignore")
-        tree: ast.Module = ast.parse(text, path)
+    text = path.read_text(
+        encoding="utf-8",
+        errors="replace",
+    )
 
-    except (SyntaxError, ValueError):
+    try:
+        tree = ast.parse(text, path)
+
+    except Exception:
         return (EXIT_SUCCESS, "False")
 
     for inspector in (

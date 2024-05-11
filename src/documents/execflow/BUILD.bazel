@@ -26,10 +26,14 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "execflow",
-    srcs = [embed("execflow.cpp")],
+    srcs = [embed(
+        "execflow.cpp",
+        "protocol.json",
+    )],
     hdrs = ["execflow.hpp"],
     deps = [
         "//lib/itertools",
+        "//src/ast/anylang",
         "//src/bitbucket",
         "//src/errors/filesystem",
         "//src/ext/rapidjson/build",
@@ -38,10 +42,8 @@ cc_library(
         "//src/kvcache",
         "//src/shutil",
         "@rapidjson",
-        "@rules_python//python/cc:current_py_cc_headers",
         "@stdlib",
         "@thread-pool",
     ],
-    additional_compiler_inputs = ["protocol.json"],
     visibility = ["//visibility:public"],
 )

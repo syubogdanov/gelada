@@ -26,7 +26,10 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "workflow",
-    srcs = [embed("workflow.cpp")],
+    srcs = [embed(
+        "workflow.cpp",
+        "protocol.json",
+    )],
     hdrs = ["workflow.hpp"],
     deps = [
         "//lib/adapters/yaml-json",
@@ -35,6 +38,5 @@ cc_library(
         "@rapidjson",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["protocol.json"],
     visibility = ["//visibility:public"],
 )

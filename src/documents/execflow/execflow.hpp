@@ -30,6 +30,8 @@ namespace documents::execflow::parallel {
 
 rapidjson::Document from_workflow(const rapidjson::Document& workflow, std::size_t threads);
 
+void normalize(const rapidjson::Document& execflow, std::size_t threads);
+
 }  // namespace documents::execflow::parallel
 
 #endif  // SRC_DOCUMENTS_EXECFLOW_EXECFLOW_HPP_

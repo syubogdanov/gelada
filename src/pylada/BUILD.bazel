@@ -26,7 +26,10 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "pylada",
-    srcs = [embed("pylada.cpp")],
+    srcs = [embed(
+        "pylada.cpp",
+        "protocol.json"
+    )],
     hdrs = ["pylada.hpp"],
     deps = [
         "//lib/tempfile",
@@ -38,6 +41,5 @@ cc_library(
         "@rules_python//python/cc:current_py_cc_headers",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["protocol.json"],
     visibility = ["//visibility:public"],
 )

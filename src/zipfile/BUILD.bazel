@@ -26,16 +26,16 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "zipfile",
-    srcs = [embed("zipfile.cpp")],
+    srcs = [embed(
+        "zipfile.cpp",
+        "is_zipfile.py",
+        "extract.py",
+    )],
     hdrs = ["zipfile.hpp"],
     deps = [
         "//lib/tempfile",
         "//src/pylada",
         "@stdlib",
-    ],
-    additional_compiler_inputs = [
-        "is_zipfile.py",
-        "extract.py",
     ],
     visibility = ["//visibility:public"],
 )

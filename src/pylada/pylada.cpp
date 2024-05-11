@@ -62,21 +62,23 @@ if __name__ == "__main__":
         json.dump(document, pipe)
 )";
 
+/* Protects Variables */
+static std::mutex pyguard;
+
 class GIL {
  public:
     GIL(void) {
-        std::lock_guard guard(this->safety_);
+        __pylada::pyguard.lock();
         this->state_ = PyGILState_Ensure();
     }
 
     ~GIL() {
-        std::lock_guard guard(this->safety_);
         PyGILState_Release(this->state_);
+        __pylada::pyguard.unlock();
     }
 
  private:
     PyGILState_STATE state_;
-    std::mutex safety_;
 };
 
 }  // namespace __pylada

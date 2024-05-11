@@ -26,7 +26,11 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "python",
-    srcs = [embed("python.cpp")],
+    srcs = [embed(
+        "python.cpp",
+        "isinstance.py",
+        "normalize.py",
+    )],
     hdrs = ["python.hpp"],
     deps = [
         "//lib/pathlib",
@@ -34,10 +38,6 @@ cc_library(
         "//src/errors/filesystem",
         "//src/pylada",
         "@stdlib",
-    ],
-    additional_compiler_inputs = [
-        "isinstance.py",
-        "normalize.py",
     ],
     visibility = ["//visibility:public"],
 )

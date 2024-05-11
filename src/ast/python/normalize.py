@@ -190,11 +190,15 @@ def main() -> tuple[int, str]:
     source = Path(r"%SRC%")
     destination = Path(r"%DST%")
 
-    try:
-        text = source.read_text(errors="ignore")
-        tree: ast.Module = ast.parse(text, source)
+    text = source.read_text(
+        encoding="utf-8",
+        errors="replace",
+    )
 
-    except (SyntaxError, ValueError):
+    try:
+        tree = ast.parse(text, source)
+
+    except Exception:
         detail = "The text is not a valid Python code"
         return (EXIT_FAILURE, detail)
 
@@ -208,6 +212,11 @@ def main() -> tuple[int, str]:
         tree = ast.fix_missing_locations(tree)
 
     text: str = ast.unparse(tree)
-    destination.write_text(text)
+
+    destination.write_text(
+        data=text,
+        encoding="utf-8",
+        errors="replace",
+    )
 
     return (EXIT_SUCCESS, "OK")

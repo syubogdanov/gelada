@@ -26,7 +26,10 @@ load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
     name = "starlark",
-    srcs = [embed("starlark.cpp")],
+    srcs = [embed(
+        "starlark.cpp",
+        "isinstance.py",
+    )],
     hdrs = ["starlark.hpp"],
     deps = [
         "//src/ast/python",
@@ -34,6 +37,5 @@ cc_library(
         "//src/pylada",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["isinstance.py"],
     visibility = ["//visibility:public"],
 )
