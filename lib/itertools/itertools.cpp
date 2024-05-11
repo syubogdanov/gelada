@@ -23,12 +23,39 @@
 
 #include <algorithm>
 #include <format>
+#include <iostream>
 #include <iterator>
 #include <limits>
 #include <numeric>
 #include <stdexcept>
 #include <string>
 #include <utility>
+
+std::vector<std::filesystem::path> itertools::collect::regular_files(
+    const std::filesystem::path& directory
+) {
+    if (!std::filesystem::exists(directory)) {
+        auto detail = std::format("The path {} does not exist", directory.string());
+        throw std::runtime_error(detail);
+    }
+
+    if (!std::filesystem::is_directory(directory)) {
+        auto detail = std::format("The path {} is not a directory", directory.string());
+        throw std::runtime_error(detail);
+    }
+
+    std::vector<std::filesystem::path> regular_files;
+
+    auto iterator = std::filesystem::recursive_directory_iterator(directory);
+    
+    for (const std::filesystem::path& path : iterator) {
+        if (std::filesystem::is_regular_file(path)) {
+            regular_files.push_back(path);
+        }
+    }
+
+    return regular_files;
+}
 
 bool itertools::contains::regular_files(const std::filesystem::path& directory) {
     if (!std::filesystem::exists(directory)) {
@@ -41,7 +68,8 @@ bool itertools::contains::regular_files(const std::filesystem::path& directory) 
         throw std::runtime_error(detail);
     }
 
-    for (const std::filesystem::path& path : std::filesystem::directory_iterator(directory)) {
+    auto iterator = std::filesystem::recursive_directory_iterator(directory);
+    for (const std::filesystem::path& path : iterator) {
         if (std::filesystem::is_regular_file(path)) {
             return true;
         }

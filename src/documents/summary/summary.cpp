@@ -20,7 +20,6 @@
 // limitations under the License.
 
 #include "src/documents/summary/summary.hpp"
-
 #include <format>
 #include <stdexcept>
 #include <string>
@@ -45,7 +44,7 @@ void validate(const rapidjson::Document& document) {
     for (const auto& summary : document["summary"].GetArray()) {
         auto submissions = summary["submissions"].GetObject();
 
-        std::string cheater = submissions["Cheater"].GetString();
+        std::string cheater = submissions["cheater"].GetString();
         if (cheater.empty()) {
             constexpr auto detail = "The summary contains an empty cheater submission name";
             throw std::runtime_error(detail);

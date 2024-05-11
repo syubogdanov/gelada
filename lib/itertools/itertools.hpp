@@ -28,6 +28,12 @@
 
 #include <combinations.hpp>
 
+namespace itertools::collect {
+
+std::vector<std::filesystem::path> regular_files(const std::filesystem::path& directory);
+
+}  // namespace itertools::collect
+
 namespace itertools::contains {
 
 bool regular_files(const std::filesystem::path& directory);
