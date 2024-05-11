@@ -117,8 +117,8 @@ std::filesystem::path github::clone(const std::string& username, const std::stri
     }
 
     std::vector downloaders = {
-        __github::download::tar,
-        __github::download::zip
+        __github::download::zip,
+        __github::download::tar
     };
 
     for (const auto& download : downloaders) {

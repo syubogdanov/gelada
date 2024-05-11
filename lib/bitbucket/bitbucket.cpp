@@ -117,8 +117,8 @@ std::filesystem::path bitbucket::clone(const std::string& username, const std::s
     }
 
     std::vector downloaders = {
-        __bitbucket::download::tar,
-        __bitbucket::download::zip
+        __bitbucket::download::zip,
+        __bitbucket::download::tar
     };
 
     for (const auto& download : downloaders) {
