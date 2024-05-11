@@ -47,7 +47,7 @@ std::vector<std::filesystem::path> itertools::collect::regular_files(
     std::vector<std::filesystem::path> regular_files;
 
     auto iterator = std::filesystem::recursive_directory_iterator(directory);
-    
+
     for (const std::filesystem::path& path : iterator) {
         if (std::filesystem::is_regular_file(path)) {
             regular_files.push_back(path);
