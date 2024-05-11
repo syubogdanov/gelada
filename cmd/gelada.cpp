@@ -95,6 +95,10 @@ int main(int argc, char* argv[]) {
         .help("specifies the output file")
         .metavar("PATH");
 
+    cli.add_argument("-sc", "--single-check")
+        .help("defines the number of checks based on DOF")
+        .flag();
+
     cli.add_argument("-t", "--threads")
         .default_value(args::threads)
         .help("limits the number of threads")
@@ -115,12 +119,6 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto threads = cli.get<int>("threads");
-    if (threads <= 0) {
-        logging::error("The number of threads must be positive");
-        return EXIT_FAILURE;
-    }
-
     auto dof = cli.get<int>("degree-of-freedom");
     if (dof <= 0) {
         logging::error("The degree of freedom must be positive");
@@ -134,6 +132,20 @@ int main(int argc, char* argv[]) {
 
         logging::warning(detail);
         logging::newline();
+    }
+
+    auto single_check = cli.get<bool>("single-check");
+    if (single_check && dof != 1) {
+        logging::warning("The 'single check' option is active only with dof = 1");
+        logging::newline();
+
+        single_check = false;
+    }
+
+    auto threads = cli.get<int>("threads");
+    if (threads <= 0) {
+        logging::error("The number of threads must be positive");
+        return EXIT_FAILURE;
     }
 
     std::filesystem::path path_to_workflow = cli.get<std::string>("workflow");
@@ -175,6 +187,10 @@ int main(int argc, char* argv[]) {
             std::string rhs_name = rhs_submission["name"].GetString();
 
             if (lhs_name == rhs_name) {
+                continue;
+            }
+
+            if (single_check && lhs_name < rhs_name) {
                 continue;
             }
 
