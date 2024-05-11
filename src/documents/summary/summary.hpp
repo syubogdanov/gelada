@@ -31,6 +31,8 @@ namespace documents::summary {
 
 std::filesystem::path write_json(const rapidjson::Document& summary);
 
+rapidjson::Document sketch(void);
+
 }  // namespace documents::summary
 
 #endif  // SRC_DOCUMENTS_SUMMARY_SUMMARY_HPP_

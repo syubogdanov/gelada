@@ -19,21 +19,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SRC_DOCUMENTS_EXECFLOW_EXECFLOW_HPP_
-#define SRC_DOCUMENTS_EXECFLOW_EXECFLOW_HPP_
+#ifndef LIB_TIMER_TIMER_HPP_
+#define LIB_TIMER_TIMER_HPP_
 
-#include <cstddef>
+#include <chrono>
+#include <mutex>
+#include <ostream>
 
-#include <rapidjson/document.h>
+namespace timer {
 
-namespace documents::execflow::parallel {
+class Timer {
+ public:
+    void finish(void);
 
-rapidjson::Document from_workflow(const rapidjson::Document& workflow, std::size_t threads);
+    bool is_finished(void) const;
 
-void normalize(const rapidjson::Document& execflow, std::size_t threads);
+    bool is_started(void) const;
 
-void rmtree(const rapidjson::Document& execflow, std::size_t threads);
+    void reset(void);
 
-}  // namespace documents::execflow::parallel
+    void start(void);
 
-#endif  // SRC_DOCUMENTS_EXECFLOW_EXECFLOW_HPP_
+    friend std::ostream& operator<<(std::ostream& stream, const timer::Timer& timer);
+
+ private:
+    mutable std::recursive_mutex rmutex_{};
+
+    bool is_started_ = false;
+    bool is_finished_ = false;
+
+    std::chrono::high_resolution_clock::time_point started_at_;
+    std::chrono::high_resolution_clock::time_point finished_at_;
+};
+
+}  // namespace timer
+
+#endif  // LIB_TIMER_TIMER_HPP_

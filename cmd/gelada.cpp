@@ -36,8 +36,10 @@
 
 #include "lib/logging/logging.hpp"
 #include "lib/threading/hardware/hardware.hpp"
+#include "lib/timer/timer.hpp"
 
 #include "src/documents/execflow/execflow.hpp"
+#include "src/documents/summary/summary.hpp"
 #include "src/documents/workflow/workflow.hpp"
 
 namespace args {
@@ -83,6 +85,10 @@ int main(int argc, char* argv[]) {
         .metavar("DOF")
         .nargs(1)
         .scan<'i', int>();
+
+    cli.add_argument("-o", "--output")
+        .help("specifies the output file")
+        .metavar("PATH");
 
     cli.add_argument("-t", "--threads")
         .default_value(args::threads)
@@ -136,19 +142,55 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    timer::Timer timer;
+    timer.start();
+
     rapidjson::Document execflow;
     rapidjson::Document workflow;
 
     try {
         workflow = documents::workflow::read(path_to_workflow);
-
         execflow = documents::execflow::parallel::from_workflow(workflow, threads);
-        documents::execflow::parallel::normalize(execflow, threads);
     }
     catch (const std::exception& exc) {
         logging::error(exc.what());
         return EXIT_FAILURE;
     }
+
+    documents::execflow::parallel::normalize(execflow, threads);
+
+    rapidjson::Document summary = documents::summary::sketch();
+
+    // ...
+
+    documents::execflow::parallel::rmtree(execflow, threads);
+
+    auto path_to_summary = documents::summary::write_json(summary);
+    std::filesystem::path output = path_to_summary;
+
+    if (cli.is_used("output")) {
+        output = cli.get<std::string>("output");
+    }
+
+    if (std::filesystem::exists(output) && !std::filesystem::is_regular_file(output)) {
+        logging::warning(std::format(
+            "The output path {} is not writable",
+            output.string()));
+        logging::newline();
+
+        output = path_to_summary;
+
+    } else if (output != path_to_summary) {
+        std::filesystem::copy_file(path_to_summary, output);
+    }
+
+    auto detail = std::format(
+        "The summary is available at {}",
+        std::filesystem::weakly_canonical(output).string());
+    logging::info(detail);
+
+    timer.finish();
+    logging::trace(timer);
 
     PyEval_RestoreThread(GIL);
     Py_Finalize();

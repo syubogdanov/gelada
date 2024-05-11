@@ -96,3 +96,15 @@ std::filesystem::path documents::summary::write_json(const rapidjson::Document& 
 
     return destination;
 }
+
+rapidjson::Document documents::summary::sketch(void) {
+    rapidjson::Document summary;
+    summary.SetObject();
+
+    summary.AddMember(
+        "summary",
+        rapidjson::Value{rapidjson::kArrayType},
+        summary.GetAllocator());
+
+    return summary;
+}

@@ -316,3 +316,22 @@ void documents::execflow::parallel::normalize(
         task.get();
     }
 }
+
+void documents::execflow::parallel::rmtree(
+    const rapidjson::Document& execflow,
+    std::size_t threads
+) {
+    if (threads == 0) {
+        constexpr auto detail = "The number of threads must be positive";
+        throw std::runtime_error(detail);
+    }
+
+    BS::thread_pool pool(threads);
+
+    for (const auto& submission : execflow["submissions"].GetArray()) {
+        std::filesystem::path dir = submission["path"].GetString();
+        pool.submit_task([dir]{ std::filesystem::remove_all(dir); });
+    }
+
+    pool.wait();
+}

@@ -21,23 +21,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
-cc_binary(
-    name = "gelada",
-    srcs = ["gelada.cpp"],
-    deps = [
-        "//etc/copyright",
-        "//etc/program",
-        "//lib/logging",
-        "//lib/threading/hardware",
-        "//lib/timer",
-        "//src/documents/execflow",
-        "//src/documents/summary",
-        "//src/documents/workflow",
-        "@argparse",
-        "@rapidjson",
-        "@rules_python//python/cc:current_py_cc_headers",
-        "@rules_python//python/cc:current_py_cc_libs",
-    ],
+cc_library(
+    name = "timer",
+    hdrs = ["timer.hpp"],
+    srcs = ["timer.cpp"],
+    visibility = ["//visibility:public"],
 )
