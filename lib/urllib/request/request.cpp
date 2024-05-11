@@ -55,7 +55,7 @@ std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
         py::tuple response = download(url, destination.string());
         return response[0].cast<std::string>();
     }
-    catch (const std::exception& exc) {
+    catch (const std::exception&) {
         std::filesystem::remove(destination);
 
         auto detail = std::format("Failed to download a file using the URL {}", url);
