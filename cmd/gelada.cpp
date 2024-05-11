@@ -136,10 +136,15 @@ int main(int argc, char* argv[]) {
 
     auto single_check = cli.get<bool>("single-check");
     if (single_check && dof != 1) {
-        logging::warning("The 'single check' option is active only with dof = 1");
+        logging::warning("The '--single-check' option is active only with DOF equal to one");
         logging::newline();
 
         single_check = false;
+    }
+
+    if (!single_check && dof == 1) {
+        logging::warning("The DOF is equal to one but '--single-check' option is not used");
+        logging::newline();
     }
 
     auto threads = cli.get<int>("threads");
