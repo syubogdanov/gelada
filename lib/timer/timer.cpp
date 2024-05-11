@@ -31,11 +31,13 @@ void Timer::finish(void) {
     std::lock_guard<std::recursive_mutex> lock(this->rmutex_);
 
     if (!this->is_started()) {
-        throw std::runtime_error("The timer has not been started yet");
+        constexpr auto detail = "The timer has not been started yet";
+        throw std::runtime_error(detail);
     }
 
     if (this->is_finished()) {
-        throw std::runtime_error("The timer has already been finished");
+        constexpr auto detail = "The timer has already been finished";
+        throw std::runtime_error(detail);
     }
 
     this->is_finished_ = true;
@@ -63,7 +65,8 @@ void Timer::start(void) {
     std::lock_guard<std::recursive_mutex> lock(this->rmutex_);
 
     if (this->is_started()) {
-        throw std::runtime_error("The timer has already been started");
+        constexpr auto detail = "The timer has already been started";
+        throw std::runtime_error(detail);
     }
 
     this->is_started_ = true;
@@ -74,7 +77,8 @@ std::ostream& operator<<(std::ostream& stream, const Timer& timer) {
     timer.rmutex_.lock();
 
     if (!timer.is_finished()) {
-        throw std::runtime_error("The timer has not been finished yet");
+        constexpr auto detail = "The timer has not been finished yet";
+        throw std::runtime_error(detail);
     }
 
     auto difference = timer.finished_at_ - timer.started_at_;
