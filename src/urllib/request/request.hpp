@@ -19,33 +19,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/ast/starlark/starlark.hpp"
+#ifndef SRC_URLLIB_REQUEST_REQUEST_HPP_
+#define SRC_URLLIB_REQUEST_REQUEST_HPP_
 
-#include <exception>
+#include <filesystem>
 #include <string>
 
-#include <experimental/embed>
+namespace urllib::request {
 
-#include "src/ast/python/python.hpp"
-#include "src/errors/filesystem/filesystem.hpp"
-#include "src/pylada/pylada.hpp"
+std::filesystem::path urlretrieve(const std::string& url);
 
-bool ast::starlark::isinstance(const std::filesystem::path& path) {
-    if (!std::filesystem::exists(path)) {
-        throw errors::filesystem::FileNotFoundError(path);
-    }
+}  // namespace urllib::request
 
-    if (!std::filesystem::is_regular_file(path)) {
-        throw errors::filesystem::NotAFileError(path);
-    }
-
-    std::string script = std::embed("src/ast/starlark/isinstance.py");
-    pylada::arg(script, "PATH", path.string());
-
-    auto detail = pylada::run(script);
-    return detail == "True";
-}
-
-std::filesystem::path ast::starlark::normalize(const std::filesystem::path& path, bool inplace) {
-    return ast::python::normalize(path, inplace);
-}
+#endif  // SRC_URLLIB_REQUEST_REQUEST_HPP_

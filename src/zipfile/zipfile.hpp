@@ -19,33 +19,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/ast/starlark/starlark.hpp"
+#ifndef SRC_ZIPFILE_ZIPFILE_HPP_
+#define SRC_ZIPFILE_ZIPFILE_HPP_
 
-#include <exception>
-#include <string>
+#include <filesystem>
 
-#include <experimental/embed>
+namespace zipfile {
 
-#include "src/ast/python/python.hpp"
-#include "src/errors/filesystem/filesystem.hpp"
-#include "src/pylada/pylada.hpp"
+bool is_zipfile(const std::filesystem::path& path);
 
-bool ast::starlark::isinstance(const std::filesystem::path& path) {
-    if (!std::filesystem::exists(path)) {
-        throw errors::filesystem::FileNotFoundError(path);
-    }
+std::filesystem::path extract(const std::filesystem::path& path);
 
-    if (!std::filesystem::is_regular_file(path)) {
-        throw errors::filesystem::NotAFileError(path);
-    }
+}  // namespace zipfile
 
-    std::string script = std::embed("src/ast/starlark/isinstance.py");
-    pylada::arg(script, "PATH", path.string());
-
-    auto detail = pylada::run(script);
-    return detail == "True";
-}
-
-std::filesystem::path ast::starlark::normalize(const std::filesystem::path& path, bool inplace) {
-    return ast::python::normalize(path, inplace);
-}
+#endif  // SRC_ZIPFILE_ZIPFILE_HPP_

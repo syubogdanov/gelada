@@ -19,33 +19,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/ast/starlark/starlark.hpp"
+#include "src/urllib/request/request.hpp"
 
 #include <exception>
+#include <format>
+#include <stdexcept>
 #include <string>
 
 #include <experimental/embed>
 
-#include "src/ast/python/python.hpp"
-#include "src/errors/filesystem/filesystem.hpp"
+#include "lib/tempfile/tempfile.hpp"
 #include "src/pylada/pylada.hpp"
 
-bool ast::starlark::isinstance(const std::filesystem::path& path) {
-    if (!std::filesystem::exists(path)) {
-        throw errors::filesystem::FileNotFoundError(path);
+std::filesystem::path urllib::request::urlretrieve(const std::string& url) {
+    if (url.empty()) {
+        constexpr auto detail = "The URL must be non-empty";
+        throw std::runtime_error(detail);
     }
 
-    if (!std::filesystem::is_regular_file(path)) {
-        throw errors::filesystem::NotAFileError(path);
+    std::string script = std::embed("src/urllib/request/urlretrieve.py");
+    pylada::arg(script, "URL", url);
+
+    auto destination = tempfile::mkstemp();
+
+    try {
+        return pylada::run(script);
     }
+    catch (const std::exception&) {
+        std::filesystem::remove(destination);
 
-    std::string script = std::embed("src/ast/starlark/isinstance.py");
-    pylada::arg(script, "PATH", path.string());
-
-    auto detail = pylada::run(script);
-    return detail == "True";
-}
-
-std::filesystem::path ast::starlark::normalize(const std::filesystem::path& path, bool inplace) {
-    return ast::python::normalize(path, inplace);
+        auto detail = std::format("Failed to download a file using the URL {}", url);
+        throw std::runtime_error(detail);
+    }
 }

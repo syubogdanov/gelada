@@ -25,19 +25,19 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 load("//bazel/rules_cc:defs.bzl", "embed")
 
 cc_library(
-    name = "python",
-    srcs = [embed("python.cpp")],
-    hdrs = ["python.hpp"],
+    name = "pylada",
+    srcs = [embed("pylada.cpp")],
+    hdrs = ["pylada.hpp"],
     deps = [
-        "//lib/pathlib",
         "//lib/tempfile",
         "//src/errors/filesystem",
-        "//src/pylada",
+        "//src/errors/rapidjson",
+        "//src/ext/rapidjson/filesystem",
+        "//src/ext/rapidjson/schema",
+        "@rapidjson",
+        "@rules_python//python/cc:current_py_cc_headers",
         "@stdlib",
     ],
-    additional_compiler_inputs = [
-        "isinstance.py",
-        "normalize.py",
-    ],
+    additional_compiler_inputs = ["protocol.json"],
     visibility = ["//visibility:public"],
 )

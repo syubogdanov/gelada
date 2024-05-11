@@ -31,11 +31,9 @@ cc_library(
     deps = [
         "//src/ast/python",
         "//src/errors/filesystem",
-        "//src/errors/python",
-        "//src/ext/pybind11/heavy",
-        "@rules_python//python/cc:current_py_cc_headers",
+        "//src/pylada",
         "@stdlib",
     ],
-    additional_compiler_inputs = ["starlark.py"],
+    additional_compiler_inputs = ["isinstance.py"],
     visibility = ["//visibility:public"],
 )

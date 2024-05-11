@@ -19,46 +19,55 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/ast/python/python.hpp"
+#include "src/tarfile/tarfile.hpp"
 
 #include <exception>
+#include <format>
+#include <stdexcept>
 #include <string>
 
 #include <experimental/embed>
 
-#include "lib/pathlib/pathlib.hpp"
 #include "lib/tempfile/tempfile.hpp"
-
-#include "src/errors/filesystem/filesystem.hpp"
 #include "src/pylada/pylada.hpp"
 
-bool ast::python::isinstance(const std::filesystem::path& path) {
+bool tarfile::is_tarfile(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path)) {
-        throw errors::filesystem::FileNotFoundError(path);
+        auto detail = std::format("The path {} does not exist", path.string());
+        throw std::runtime_error(detail);
     }
 
     if (!std::filesystem::is_regular_file(path)) {
-        throw errors::filesystem::NotAFileError(path);
+        auto detail = std::format("The path {} is not a regular file", path.string());
+        throw std::runtime_error(detail);
     }
 
-    std::string script = std::embed("src/ast/python/isinstance.py");
+    std::string script = std::embed("src/tarfile/is_tarfile.py");
     pylada::arg(script, "PATH", path.string());
 
-    auto detail = pylada::run(script);
-    return detail == "True";
+    try {
+        auto detail = pylada::run(script);
+        return detail == "True";
+    }
+    catch (const std::exception& exc) {
+        auto detail = std::format("An unexpected error happened: {}", exc.what());
+        throw std::runtime_error(detail);
+    }
 }
 
-std::filesystem::path ast::python::normalize(const std::filesystem::path& path, bool inplace) {
+std::filesystem::path tarfile::extract(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path)) {
-        throw errors::filesystem::FileNotFoundError(path);
+        auto detail = std::format("The path {} does not exist", path.string());
+        throw std::runtime_error(detail);
     }
 
     if (!std::filesystem::is_regular_file(path)) {
-        throw errors::filesystem::NotAFileError(path);
+        auto detail = std::format("The path {} is not a regular file", path.string());
+        throw std::runtime_error(detail);
     }
 
-    auto destination = inplace ? path : tempfile::mkstemp();
-    std::string script = std::embed("src/ast/python/normalize.py");
+    auto destination = tempfile::mkdtemp();
+    std::string script = std::embed("src/tarfile/extract.py");
 
     pylada::arg(script, "SRC", path.string());
     pylada::arg(script, "DST", destination.string());
@@ -66,11 +75,11 @@ std::filesystem::path ast::python::normalize(const std::filesystem::path& path, 
     try {
         pylada::run(script);
     }
-    catch (const std::exception&) {
-        if (!inplace) {
-            std::filesystem::remove(destination);
-        }
-        throw;
+    catch (const std::exception& exc) {
+        std::filesystem::remove_all(destination);
+
+        auto detail = std::format("Looks like the file {} is not a TAR archive", path.string());
+        throw std::runtime_error(detail);
     }
 
     return destination;

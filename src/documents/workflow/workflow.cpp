@@ -72,8 +72,7 @@ void validate(const rapidjson::Document& workflow) {
                 auto detail = std::format("The submission \"{}\" has an empty repository", name);
                 throw std::runtime_error(detail);
             }
-        }
-        else {
+        } else {
             std::string path = submission["path"].GetString();
             if (path.empty()) {
                 auto detail = std::format("The submission \"{}\" has an empty path", name);
@@ -97,15 +96,15 @@ rapidjson::Document documents::workflow::read(const std::filesystem::path& path)
 
     if (extension == ".json") {
         workflow = rapidjson::filesystem::read(path);
-    }
-    else if (extension == ".yaml" || extension == ".yml") {
+
+    } else if (extension == ".yaml" || extension == ".yml") {
         workflow = adapters::to_rapidjson::read_yaml(path);
-    }
-    else if (!path.has_extension()) {
+
+    } else if (!path.has_extension()) {
         constexpr auto detail = "The workflow does not have an extension";
         throw std::runtime_error(detail);
-    }
-    else {
+
+    } else {
         constexpr auto detail = "The workflow has an unsupported extension";
         throw std::runtime_error(detail);
     }

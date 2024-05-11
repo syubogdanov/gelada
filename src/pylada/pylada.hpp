@@ -19,33 +19,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "src/ast/starlark/starlark.hpp"
+#ifndef SRC_PYLADA_PYLADA_HPP_
+#define SRC_PYLADA_PYLADA_HPP_
 
-#include <exception>
 #include <string>
 
-#include <experimental/embed>
+namespace pylada {
 
-#include "src/ast/python/python.hpp"
-#include "src/errors/filesystem/filesystem.hpp"
-#include "src/pylada/pylada.hpp"
+void arg(std::string& executable, const std::string& key, const std::string& value);
 
-bool ast::starlark::isinstance(const std::filesystem::path& path) {
-    if (!std::filesystem::exists(path)) {
-        throw errors::filesystem::FileNotFoundError(path);
-    }
+std::string run(std::string executable);
 
-    if (!std::filesystem::is_regular_file(path)) {
-        throw errors::filesystem::NotAFileError(path);
-    }
+}  // namespace pylada
 
-    std::string script = std::embed("src/ast/starlark/isinstance.py");
-    pylada::arg(script, "PATH", path.string());
-
-    auto detail = pylada::run(script);
-    return detail == "True";
-}
-
-std::filesystem::path ast::starlark::normalize(const std::filesystem::path& path, bool inplace) {
-    return ast::python::normalize(path, inplace);
-}
+#endif  // SRC_PYLADA_PYLADA_HPP_

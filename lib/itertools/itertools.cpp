@@ -28,6 +28,7 @@
 #include <numeric>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 bool itertools::contains::regular_files(const std::filesystem::path& directory) {
     if (!std::filesystem::exists(directory)) {

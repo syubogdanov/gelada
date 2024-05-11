@@ -39,17 +39,13 @@
 
 #include <BS_thread_pool.hpp>
 
-#include "lib/bitbucket/bitbucket.hpp"
-#include "lib/github/github.hpp"
 #include "lib/itertools/itertools.hpp"
 
+#include "src/bitbucket/bitbucket.hpp"
 #include "src/errors/filesystem/filesystem.hpp"
-#include "src/errors/python/python.hpp"
-
-#include "src/ext/pybind11/gil/gil.hpp"
 #include "src/ext/rapidjson/build/build.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
-
+#include "src/github/github.hpp"
 #include "src/kvcache/kvcache.hpp"
 #include "src/shutil/shutil.hpp"
 
@@ -200,11 +196,8 @@ auto fetch_latest(const rapidjson::Document& workflow, std::size_t threads) {
 
         if (host == "GitHub") {
             downloads[name] = pool.submit_task([key, user, repo]{
-                GIL::EnsureState guard;
-
                 auto path = github::clone(user, repo);
                 __documents::execflow::cache::write(key, path);
-
                 return path;
             });
             continue;
@@ -212,11 +205,8 @@ auto fetch_latest(const rapidjson::Document& workflow, std::size_t threads) {
 
         if (host == "Bitbucket") {
             downloads[name] = pool.submit_task([key, user, repo]{
-                GIL::EnsureState guard;
-
                 auto path = bitbucket::clone(user, repo);
                 __documents::execflow::cache::write(key, path);
-
                 return path;
             });
             continue;
@@ -235,10 +225,6 @@ rapidjson::Document documents::execflow::parallel::from_workflow(
     const rapidjson::Document& workflow,
     std::size_t threads
 ) {
-    if (!Py_IsInitialized()) {
-        throw errors::python::NotInitializedInterpreterError();
-    }
-
     auto latest = __documents::execflow::parallel::fetch_latest(workflow, threads);
 
     rapidjson::Document execflow;

@@ -21,23 +21,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
-load("//bazel/rules_cc:defs.bzl", "embed")
+import urllib.error
+import urllib.request
 
-cc_library(
-    name = "python",
-    srcs = [embed("python.cpp")],
-    hdrs = ["python.hpp"],
-    deps = [
-        "//lib/pathlib",
-        "//lib/tempfile",
-        "//src/errors/filesystem",
-        "//src/pylada",
-        "@stdlib",
-    ],
-    additional_compiler_inputs = [
-        "isinstance.py",
-        "normalize.py",
-    ],
-    visibility = ["//visibility:public"],
-)
+
+EXIT_SUCCESS: int = 0
+EXIT_FAILURE: int = 1
+
+
+def main() -> tuple[int, str]:
+    url: str = r"%URL%"
+
+    try:
+        installation, _ = urllib.request.urlretrieve(url)
+
+    except urllib.error.HTTPError:
+        return (EXIT_FAILURE, f"Failed to access the web-page: {url}")
+
+    except Exception as exception:
+        return (EXIT_FAILURE, f"Something went wrong: {exception}")
+
+    return (EXIT_SUCCESS, installation)

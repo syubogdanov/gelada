@@ -21,6 +21,8 @@
 
 #include "src/shutil/shutil.hpp"
 
+#include <algorithm>
+
 #include "lib/tempfile/tempfile.hpp"
 
 #include "src/errors/filesystem/filesystem.hpp"

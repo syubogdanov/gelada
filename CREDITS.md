@@ -4,7 +4,6 @@
 |--------------------|--------------------|----------------|----------------------------|--------------|
 | [Gelada Icon][01]  | [@freepik][02]     | [Flaticon][03] | [Flaticon][04]             | Image        |
 | [Bazel][05]        | [@bazelbuild][06]  | [GitHub][07]   | [Apache-2.0][08]           | Build System |
-| [pybind11][09]     | [@pybind][10]      | [GitHub][11]   | [pybind11][12]             | C++ Library  |
 | [levenshtein][13]  | [@syubogdanov][14] | [GitHub][15]   | [MIT][16]                  | C++ Library  |
 | [argparse][17]     | [@p-ranav][18]     | [GitHub][19]   | [MIT][20]                  | C++ Library  |
 | [rapidjson][21]    | [@Tencent][22]     | [GitHub][23]   | [rapidjson][24]            | C++ Library  |
@@ -21,11 +20,6 @@
 [06]: https://github.com/bazelbuild
 [07]: https://github.com
 [08]: https://github.com/bazelbuild/bazel/blob/master/LICENSE
-
-[09]: https://github.com/pybind/pybind11
-[10]: https://github.com/pybind
-[11]: https://github.com
-[12]: https://github.com/pybind/pybind11/blob/master/LICENSE
 
 [13]: https://github.com/syubogdanov/levenshtein
 [14]: https://github.com/syubogdanov
