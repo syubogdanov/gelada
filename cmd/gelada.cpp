@@ -60,6 +60,15 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    Py_SetProgramName(program);
+    Py_Initialize();
+
+    /* Unlock the GIL for threads */
+    auto GIL = PyEval_SaveThread();
+
+    /* Assert the unlocked GIL */
+    assert(!PyGILState_Check());
+
     auto cli = argparse::ArgumentParser(
         etc::program::name,
         etc::program::version);
@@ -126,15 +135,6 @@ int main(int argc, char* argv[]) {
         logging::error("The workflow is not a regular file");
         return EXIT_FAILURE;
     }
-
-    Py_SetProgramName(program);
-    Py_Initialize();
-
-    /* Unlock the GIL for threads */
-    auto GIL = PyEval_SaveThread();
-
-    /* Assert the unlocked GIL */
-    assert(!PyGILState_Check());
 
     rapidjson::Document execflow;
     rapidjson::Document workflow;
