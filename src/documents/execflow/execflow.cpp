@@ -44,9 +44,12 @@
 #include "lib/itertools/itertools.hpp"
 
 #include "src/errors/filesystem/filesystem.hpp"
+#include "src/errors/python/python.hpp"
+
 #include "src/ext/pybind11/gil/gil.hpp"
 #include "src/ext/rapidjson/build/build.hpp"
 #include "src/ext/rapidjson/schema/schema.hpp"
+
 #include "src/kvcache/kvcache.hpp"
 #include "src/shutil/shutil.hpp"
 
@@ -232,6 +235,10 @@ rapidjson::Document documents::execflow::parallel::from_workflow(
     const rapidjson::Document& workflow,
     std::size_t threads
 ) {
+    if (!Py_IsInitialized()) {
+        throw errors::python::NotInitializedInterpreterError();
+    }
+
     auto latest = __documents::execflow::parallel::fetch_latest(workflow, threads);
 
     rapidjson::Document execflow;
