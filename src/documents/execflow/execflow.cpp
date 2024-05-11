@@ -235,6 +235,12 @@ rapidjson::Document documents::execflow::parallel::from_workflow(
     auto latest = __documents::execflow::parallel::fetch_latest(workflow, threads);
 
     rapidjson::Document execflow;
+    execflow.SetObject();
+
+    execflow.AddMember(
+        "submissions",
+        rapidjson::Value{rapidjson::kArrayType},
+        execflow.GetAllocator());
 
     for (const auto& raw_submission : workflow["submissions"].GetArray()) {
         std::string submission_name = raw_submission["name"].GetString();
