@@ -330,10 +330,10 @@ int main(int argc, char* argv[]) {
                                 continue;
                             }
 
-                            auto score = math::probability::gmean(probabilities);
-                            if (score > confidence) {
+                            auto probability = math::probability::gmean(probabilities);
+                            if (probability > confidence) {
                                 suspects = candidates;
-                                confidence = score;
+                                confidence = probability;
                             }
                         }
                     }
