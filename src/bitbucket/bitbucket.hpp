@@ -27,6 +27,16 @@
 
 namespace bitbucket {
 
+/**
+ * Downloads the repository from `Bitbucket`.
+ * 
+ * @param username <no specification required>
+ * @param repository <no specification required>
+ * 
+ * @note uses the `Python` interpreter
+ * @note thread-safe
+ * @note `.git/` is ignored
+*/
 std::filesystem::path clone(const std::string& username, const std::string& repository);
 
 }  // namespace bitbucket

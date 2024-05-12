@@ -28,6 +28,13 @@
 
 namespace rapidjson::build {
 
+/**
+ * Builds a string type object in `rapidjson` format.
+ * 
+ * @param string the string to be used as the value
+ * @param allocaor the allocator of the document
+ * @return the object of `rapidjson` format
+*/
 rapidjson::Value string(const std::string& string, rapidjson::MemoryPoolAllocator<>& allocator);
 
 }  // namespace rapidjson::build

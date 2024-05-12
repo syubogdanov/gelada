@@ -28,10 +28,28 @@
 
 namespace documents::execflow::parallel {
 
+/**
+ * Converts a `workflow` type configuration to an `execflow` type configuration.
+ * 
+ * @param workflow the `workflow` type document
+ * @param threads the number of threads to be used
+*/
 rapidjson::Document from_workflow(const rapidjson::Document& workflow, std::size_t threads);
 
+/**
+ * Normalizes the `execroot`s listed in the document.
+ * 
+ * @param execflow the `execflow` type document
+ * @param threads the number of threads to be used
+*/
 void normalize(const rapidjson::Document& execflow, std::size_t threads);
 
+/**
+ * Deletes the `execroot`s listed in the document.
+ * 
+ * @param execflow the `execflow` type document
+ * @param threads the number of threads to be used
+*/
 void rmtree(const rapidjson::Document& execflow, std::size_t threads);
 
 }  // namespace documents::execflow::parallel

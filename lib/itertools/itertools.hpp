@@ -30,24 +30,50 @@
 
 namespace itertools::collect {
 
+/**
+ * Collects all regular files of the given directory.
+ * 
+ * @param directory the path to the directory
+ * @return the vector with regular files
+*/
 std::vector<std::filesystem::path> regular_files(const std::filesystem::path& directory);
 
 }  // namespace itertools::collect
 
 namespace itertools::contains {
 
+/**
+ * Checks if there are regular files in the directory.
+ * 
+ * @param directory the path to the directory
+ * @return if there is at least one regular file in the directory
+*/
 bool regular_files(const std::filesystem::path& directory);
 
 }  // namespace itertools::contains
 
 namespace itertools::count {
 
+/**
+ * Counts the number of file system objects only in the specified directory.
+ * 
+ * @param directory the path to the directory
+ * @return the number of objects
+ * 
+ * @note the directory is not explored recursively
+*/
 std::size_t dirlist(const std::filesystem::path& directory);
 
 }  // namespace itertools::count
 
 namespace itertools {
 
+/**
+ * Gets an iterator over all subsets of length `length` from the set `0`, `1`, ..., `limit - 1`
+ * 
+ * @param limit the number of elements of the set
+ * @param length the number of values in subsets
+*/
 iter::impl::Combinator<std::vector<std::size_t>> combinations(std::size_t limit, std::size_t length);
 
 }  // namespace itertools

@@ -26,6 +26,14 @@
 
 namespace std {
 
+/**
+ * Embeds the contents of the file in the place where the function is called.
+ * 
+ * @param __path the file whose contents need to be embedded
+ * @return the contents of the specified file
+ * 
+ * @note Substitution must be performed by means of compilation
+*/
 constexpr const char* embed(const char* __path) {
     return "The substitution is performed at the compile time.";
 }

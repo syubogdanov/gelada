@@ -30,6 +30,13 @@ static std::mutex mutex;
 
 namespace logging {
 
+/**
+ * Outputs an `ERROR` type message using `ANSI` encoding colors.
+ * 
+ * @param detail the text to be written
+ * 
+ * @note `stdout` is used
+*/
 template<typename Text>
 void error(const Text& detail) {
     auto prefix = "\033[0;31mERROR:\033[0m ";
@@ -37,6 +44,13 @@ void error(const Text& detail) {
     std::cout << prefix << detail << std::endl;
 }
 
+/**
+ * Outputs an `INFO` type message using `ANSI` encoding colors.
+ * 
+ * @param detail the text to be written
+ * 
+ * @note `stdout` is used
+*/
 template<typename Text>
 void info(const Text& detail) {
     auto prefix = "\033[0;32mINFO:\033[0m ";
@@ -44,6 +58,13 @@ void info(const Text& detail) {
     std::cout << prefix << detail << std::endl;
 }
 
+/**
+ * Outputs a `WARNING` type message using `ANSI` encoding colors.
+ * 
+ * @param detail the text to be written
+ * 
+ * @note `stdout` is used
+*/
 template<typename Text>
 void warning(const Text& detail) {
     auto prefix = "\033[0;33mWARNING:\033[0m ";
@@ -51,6 +72,13 @@ void warning(const Text& detail) {
     std::cout << prefix << detail << std::endl;
 }
 
+/**
+ * Outputs a `TRACE` type message using `ANSI` encoding colors.
+ * 
+ * @param detail the text to be written
+ * 
+ * @note `stdout` is used
+*/
 template<typename Text>
 void trace(const Text& detail) {
     auto prefix = "\033[0;34mTRACE:\033[0m ";
@@ -58,6 +86,11 @@ void trace(const Text& detail) {
     std::cout << prefix << detail << std::endl;
 }
 
+/**
+ * Outputs a newline.
+ * 
+ * @note `stdout` is used
+*/
 void newline(void) {
     std::lock_guard lock(mutex);
     std::cout << std::endl;

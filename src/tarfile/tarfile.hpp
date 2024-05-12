@@ -26,8 +26,24 @@
 
 namespace tarfile {
 
+/**
+ * Checks whether the file is a valid `TAR` archive.
+ * 
+ * @param path the path to the file
+ * @return whether the path is a valid `TAR` archive
+ * 
+ * @note uses the `Python` interpreter
+*/
 bool is_tarfile(const std::filesystem::path& path);
 
+/**
+ * Extracts the contents of a `TAR` archive.
+ * 
+ * @param path the path to the file
+ * @return the path to the extracted content
+ * 
+ * @note uses the `Python` interpreter
+*/
 std::filesystem::path extract(const std::filesystem::path& path);
 
 }  // namespace tarfile

@@ -26,6 +26,13 @@
 
 namespace threading::hardware {
 
+/**
+ * Defines the maximum allowed number of threads for a given processor.
+ * 
+ * @return the number of threads
+ * 
+ * @note if the installation failed, then `1` is returned
+*/
 std::size_t threads(void);
 
 }  // namespace threading::hardware

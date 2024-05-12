@@ -27,6 +27,15 @@
 
 namespace urllib::request {
 
+/**
+ * Copies a network object denoted by a URL to a local file.
+ * 
+ * @param url the URL of the web-page
+ * @return the path to the downloaded content
+ * 
+ * @note uses the Python interpreter
+ * @note thread-safe
+*/
 std::filesystem::path urlretrieve(const std::string& url);
 
 }  // namespace urllib::request

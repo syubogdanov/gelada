@@ -26,8 +26,25 @@
 
 namespace pylada {
 
+/**
+ * Inserts an argument into a `Python` script using the `pylada` protocol.
+ * 
+ * @param executable the contents of the script
+ * @param key the key to be replaced
+ * @param value the value to be inserted
+ * 
+ * @note changes the contents of the `executable` variable inplace
+*/
 void arg(std::string& executable, const std::string& key, const std::string& value);
 
+/**
+ * Runs the `Python` script using the `pylada` protocol.
+ * 
+ * @param executable the contents of the script
+ * 
+ * @note uses the `Python` interpreter
+ * @note thread-safe
+*/
 std::string run(std::string executable);
 
 }  // namespace pylada

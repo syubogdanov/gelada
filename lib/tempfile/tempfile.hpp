@@ -26,8 +26,20 @@
 
 namespace tempfile {
 
+/**
+ * Creates a temporary directory.
+ * 
+ * @note thread-safe
+ * @note the directory will not be deleted automatically
+*/
 std::filesystem::path mkdtemp(void);
 
+/**
+ * Creates a temporary regular file.
+ * 
+ * @note thread-safe
+ * @note the file will not be deleted automatically
+*/
 std::filesystem::path mkstemp(void);
 
 }  // namespace tempfile

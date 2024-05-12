@@ -28,18 +28,56 @@
 
 namespace timer {
 
+/**
+ * Thread-safe timer implementation.
+*/
 class Timer {
  public:
+    /**
+     * Finishes the timer.
+     * 
+     * @note thread-safe
+    */
     void finish(void);
 
+    /**
+     * Checks if the timer is finished.
+     * 
+     * @return if the timer is finished
+     * 
+     * @note thread-safe
+    */
     bool is_finished(void) const;
 
+    /**
+     * Checks if the timer is started.
+     * 
+     * @return if the timer is started
+     * 
+     * @note thread-safe
+    */
     bool is_started(void) const;
 
+    /**
+     * Completely resets the timer state.
+     * 
+     * @note thread-safe
+    */
     void reset(void);
 
+    /**
+     * Starts the timer.
+     * 
+     * @note thread-safe
+    */
     void start(void);
 
+    /**
+     * Writes the current state of the timer to the stream.
+     * 
+     * @param stream a stream for recording the timer state
+     * @param timer the timer whose status is displayed
+    */
     friend std::ostream& operator<<(std::ostream& stream, const timer::Timer& timer);
 
  private:

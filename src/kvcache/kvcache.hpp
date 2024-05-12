@@ -27,18 +27,48 @@
 
 namespace kvcache {
 
+/**
+ * Representation of the key-value cache object.
+ * 
+ * @param key <no specification required>
+ * @param value <no specification required>
+ * @param timestamp <no specification required>
+*/
 struct Cache {
     std::string key;
     std::string value;
     std::time_t timestamp;
 };
 
+/**
+ * Checks if there is a cache with such a key.
+ * 
+ * @param key <no specification required>
+ * @return if there is a cached object with this key
+*/
 bool exists(const std::string& key);
 
+/**
+ * Reads the cache by the specified key.
+ * 
+ * @param key <no specification required>
+ * @return the cached object
+*/
 Cache read(const std::string& key);
 
+/**
+ * Saves the value with the specified key.
+ * 
+ * @param key <no specification required>
+ * @param value <no specification required>
+*/
 void write(const std::string& key, const std::string& value);
 
+/**
+ * Drops the object with the specified key.
+ * 
+ * @param key <no specification required>
+*/
 void drop(const std::string& key);
 
 }  // namespace kvcache

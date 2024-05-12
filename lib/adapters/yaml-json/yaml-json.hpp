@@ -28,6 +28,12 @@
 
 namespace adapters::to_rapidjson {
 
+/**
+ * Reads a `YAML` file into `rapidjson` document format.
+ * 
+ * @param path the path to the `YAML` file
+ * @return the document from the parsed file
+*/
 rapidjson::Document read_yaml(const std::filesystem::path& path);
 
 }  // namespace adapters::to_rapidjson

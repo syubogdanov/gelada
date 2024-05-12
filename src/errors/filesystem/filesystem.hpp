@@ -28,16 +28,25 @@
 
 namespace errors::filesystem {
 
+/**
+ * Base class for all `gelada`-defined `filesystem` errors.
+*/
 class FilesystemError: public std::runtime_error {
  public:
     explicit FilesystemError(const std::string& detail);
 };
 
+/**
+ * Representation of the missing file error.
+*/
 class FileNotFoundError: public FilesystemError {
  public:
     explicit FileNotFoundError(const std::filesystem::path& path);
 };
 
+/**
+ * Representation of the file system object mismatch error of the "regular file" type.
+*/
 class NotAFileError: public FilesystemError {
  public:
     explicit NotAFileError(const std::filesystem::path& path);

@@ -29,8 +29,19 @@
 
 namespace documents::summary {
 
+/**
+ * Writes the configuration of the `summary` type as a `JSON` file.
+ * 
+ * @param summary the document to be serialized
+ * @return the path to the file with the contents
+*/
 std::filesystem::path write_json(const rapidjson::Document& summary);
 
+/**
+ * Get an empty configuration of the `summary` type.
+ * 
+ * @return an empty configuration of the `summary` type
+*/
 rapidjson::Document sketch(void);
 
 }  // namespace documents::summary

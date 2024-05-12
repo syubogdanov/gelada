@@ -29,6 +29,12 @@
 
 namespace documents::workflow {
 
+/**
+ * Reads a configuration file of the `workflow` type as a `rapidjson` document.
+ * 
+ * @param path the path to the file
+ * @return a file of the `workflow` type corresponding to the specification
+*/
 rapidjson::Document read(const std::filesystem::path& path);
 
 }  // namespace documents::workflow

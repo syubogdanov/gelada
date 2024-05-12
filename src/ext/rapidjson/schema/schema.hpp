@@ -26,6 +26,13 @@
 
 namespace rapidjson::schema {
 
+/**
+ * Check whether the document corresponds to the specified schema.
+ * 
+ * @param document the document to be validated
+ * @param schemaJson the schema to be applied
+ * @return if the document corresponds to the specified schema
+*/
 bool ok(const rapidjson::Document& document, const char* schemaJson);
 
 }  // namespace rapidjson::schema

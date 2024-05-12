@@ -28,11 +28,17 @@
 
 namespace errors::rapidjson {
 
+/**
+ * Base class for all `gelada`-defined `rapidjson` errors.
+*/
 class RapidjsonError: public std::runtime_error {
  public:
     explicit RapidjsonError(const std::string& detail);
 };
 
+/**
+ * Representation of the schema matching error.
+*/
 class MismatchedSchemaError: public RapidjsonError {
  public:
     MismatchedSchemaError(void);

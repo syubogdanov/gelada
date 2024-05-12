@@ -28,8 +28,20 @@
 
 namespace rapidjson::filesystem {
 
+/**
+ * Reads the `JSON` file into the `rapidjson` document format.
+ * 
+ * @param path the path to the `JSON` file
+ * @return the document from the parsed file
+*/
 rapidjson::Document read(const std::filesystem::path& path);
 
+/**
+ * Writes the `rapidjson` document to the specified path.
+ * 
+ * @param document the document to be serialized
+ * @param path the file to write the document to
+*/
 void write(const rapidjson::Document& document, const std::filesystem::path& path);
 
 }  // namespace rapidjson::filesystem

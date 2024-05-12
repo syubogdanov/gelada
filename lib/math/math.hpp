@@ -26,6 +26,12 @@
 
 namespace math::probability {
 
+/**
+ * Generalizes probabilities using the geometric mean.
+ * 
+ * @param probs the probabilities
+ * @return the geometric mean
+*/
 double gmean(const std::vector<double>& probs);
 
 }  // namespace math::probability

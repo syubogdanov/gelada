@@ -26,8 +26,24 @@
 
 namespace zipfile {
 
+/**
+ * Checks whether the file is a valid `ZIP` archive.
+ * 
+ * @param path the path to the file
+ * @return whether the path is a valid `ZIP` archive
+ * 
+ * @note uses the `Python` interpreter
+*/
 bool is_zipfile(const std::filesystem::path& path);
 
+/**
+ * Extracts the contents of a `ZIP` archive.
+ * 
+ * @param path the path to the file
+ * @return the path to the extracted content
+ * 
+ * @note uses the `Python` interpreter
+*/
 std::filesystem::path extract(const std::filesystem::path& path);
 
 }  // namespace zipfile

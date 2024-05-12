@@ -26,6 +26,16 @@
 
 namespace shutil {
 
+/**
+ * Isolates the file system object.
+ * 
+ * @param path the path to the object
+ * @return the path to an isolated object
+ * 
+ * @note symlinks are ignored
+ * @note regular files are added to a directory
+ * @note the return value is always a directory
+*/
 std::filesystem::path seal(const std::filesystem::path& path);
 
 }  // namespace shutil

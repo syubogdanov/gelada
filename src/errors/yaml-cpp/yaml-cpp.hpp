@@ -28,11 +28,17 @@
 
 namespace errors::YAML {
 
+/**
+ * Base class for all `gelada`-defined `yaml-cpp` errors.
+*/
 class YAMLError: public std::runtime_error {
  public:
     explicit YAMLError(const std::string& detail);
 };
 
+/**
+ * Representation of the schema matching error.
+*/
 class MismatchedSchemaError: public YAMLError {
  public:
     MismatchedSchemaError(void);

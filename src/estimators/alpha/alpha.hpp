@@ -26,6 +26,15 @@
 
 namespace estimators::alpha {
 
+/**
+ * Returns a similarity score based on the `Levenshtein` algorithm.
+ * 
+ * @param lhs the path to the file to be compared
+ * @param rhs the path to the file to be compared
+ * @return the similarity score
+ * 
+ * @note the metric ranges from `0` to `1`
+*/
 double levenshtein(const std::filesystem::path& lhs, const std::filesystem::path& rhs);
 
 }  // namespace estimators::alpha

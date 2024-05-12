@@ -27,6 +27,12 @@
 
 namespace pathlib {
 
+/**
+ * Reads the contents of a regular file.
+ * 
+ * @param path the path to the file
+ * @return the contents of the file
+*/
 std::string read_text(const std::filesystem::path& path);
 
 }  // namespace pathlib

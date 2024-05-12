@@ -26,6 +26,16 @@
 
 namespace ast::anylang {
 
+/**
+ * Normalizes the abstract syntax tree of any language according to the `gelada` rules.
+ * 
+ * @param path the path to the file
+ * @param inplace whether to use the same file for output
+ * @return the path to the normalized object
+ * 
+ * @note the language is detected automatically
+ * @note uses the `Python` interpreter
+*/
 std::filesystem::path normalize(const std::filesystem::path& path, bool inplace = false);
 
 }  // namespace ast::anylang
