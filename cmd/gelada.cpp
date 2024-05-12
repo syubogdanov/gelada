@@ -302,7 +302,8 @@ int main(int argc, char* argv[]) {
                     std::vector<std::filesystem::path> candidates;
                     std::vector<double> probabilities;
 
-                    for (std::size_t size = 1; size <= dof; ++size) {
+                    auto limit = std::min<std::size_t>(dof, rhs_files.size());
+                    for (std::size_t size = 1; size <= limit; ++size) {
                         auto combinations = itertools::combinations(rhs_files.size(), size);
 
                         for (const auto& indices : combinations) {
