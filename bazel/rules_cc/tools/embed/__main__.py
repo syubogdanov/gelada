@@ -33,6 +33,12 @@ REGEX_STD_EMBED = r'(std::embed\(\s*"([^\)]+)"\s*\))'
 
 
 def parse_arguments() -> Namespace:
+    """
+    Parses the command line arguments.
+
+    Returns:
+        the namespace of the arguments
+    """
     parser = ArgumentParser()
 
     parser.add_argument(
@@ -53,10 +59,28 @@ def parse_arguments() -> Namespace:
 
 
 def get_extension(path: Path) -> str:
+    """
+    Extracts the full suffix of the provided path.
+
+    Args:
+        `path`: the path to be parsed
+
+    Returns:
+        the full suffix of the provided path
+    """
     return "".join(path.suffixes)
 
 
 def is_source_file(path: Path) -> bool:
+    """
+    Check whether the path contains `C++` source file suffix.
+
+    Args:
+        `path`: the path to be parsed
+
+    Returns:
+        whether the path contains `C++` source file suffix
+    """
     return get_extension(path) in {
         ".c",
         ".cc",
@@ -68,6 +92,15 @@ def is_source_file(path: Path) -> bool:
 
 
 def as_string_literal(text: str) -> str:
+    """
+    Wraps a string in a `C++` string literal.
+
+    Args:
+        `text`: the text to be wrapped
+
+    Returns:
+        a string in the `C++` string literal format
+    """
     if (delimeter := "<%<std::embed>%>") not in text:
         return f'R"{delimeter}({text}){delimeter}"'
 
@@ -76,6 +109,12 @@ def as_string_literal(text: str) -> str:
 
 
 def main() -> None:
+    """
+    Embeds the `std::embed` directives before starting compilation.
+
+    Returns:
+        -
+    """
     args = parse_arguments()
 
     if not args.input.exists():

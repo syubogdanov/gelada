@@ -30,6 +30,15 @@ EXIT_FAILURE: int = 1
 
 
 def main() -> tuple[int, str]:
+    """
+    Copies a network object denoted by a URL to a local file.
+
+    Pylada Args:
+        `URL`: the URL of the web-page
+
+    Returns:
+        the path to the downloaded content
+    """
     url: str = r"%URL%"
 
     try:

@@ -29,6 +29,16 @@ EXIT_FAILURE: int = 1
 
 
 def main() -> tuple[int, str]:
+    """
+    Extracts the contents of a `ZIP` archive.
+
+    Pylada Args:
+        `SRC`: the path to the input file
+        `DST`: the path to the output file
+
+    Returns:
+        -
+    """
     src: str = r"%SRC%"
     dst: str = r"%DST%"
 

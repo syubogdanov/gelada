@@ -21,13 +21,41 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+
 def green(text: str) -> str:
+    """
+    Gives the text a `green` color using the `ANSI` encoding palette.
+
+    Args:
+        `text`: the text to be colored
+
+    Returns:
+        the text to which the color was applied
+    """
     return f"\033[0;32m{text}\033[0m"
 
 
 def red(text: str) -> str:
+    """
+    Gives the text a `red` color using the `ANSI` encoding palette.
+
+    Args:
+        `text`: the text to be colored
+
+    Returns:
+        the text to which the color was applied
+    """
     return f"\033[0;31m{text}\033[0m"
 
 
 def yellow(text: str) -> str:
+    """
+    Gives the text a `yellow` color using the `ANSI` encoding palette.
+
+    Args:
+        `text`: the text to be colored
+
+    Returns:
+        the text to which the color was applied
+    """
     return f"\033[0;33m{text}\033[0m"

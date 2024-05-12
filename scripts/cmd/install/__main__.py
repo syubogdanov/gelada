@@ -35,6 +35,12 @@ EXIT_FAILURE: int = 1
 
 
 def syspaths() -> list[Path]:
+    """
+    Get a list of directories specified in the `PATH` environment variable.
+
+    Returns:
+        directories from the `PATH` environment variable
+    """
     return [
         Path(path)
         for path in os.getenv("PATH", "").split(os.pathsep)
@@ -43,6 +49,13 @@ def syspaths() -> list[Path]:
 
 
 def main() -> int:
+    """
+    Installs the compiled executable file into the user's system.
+
+    Returns:
+        - `0`: OK
+        - `1`: Something went wrong
+    """
     try:
         filename: str = "gelada.exe" if is_windows() else "gelada"
         executable = Path(f"bazel-bin/cmd/{filename}")

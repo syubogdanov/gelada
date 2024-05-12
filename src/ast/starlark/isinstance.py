@@ -40,6 +40,9 @@ EXIT_FAILURE: int = 1
 
 
 class Inspector(ast.NodeVisitor):
+    """
+    Base class for all `ast.NodeVisitor`s used.
+    """
     __slots__: str = "_ok"
 
     def __init__(self: Self) -> None:
@@ -56,6 +59,9 @@ class Inspector(ast.NodeVisitor):
 
 
 class ClassInspector(Inspector):
+    """
+    Checks for the presence of the syntactic construct `class`.
+    """
     __slots__: tuple[str] = ()
 
     def visit_ClassDef(self, node: ast.ClassDef):
@@ -63,6 +69,9 @@ class ClassInspector(Inspector):
 
 
 class GeneratorInspector(Inspector):
+    """
+    Checks for the presence of pythonic generators.
+    """
     __slots__: tuple[str] = ()
 
     def visit_GeneratorExp(self: Self, node: ast.GeneratorExp):
@@ -70,6 +79,9 @@ class GeneratorInspector(Inspector):
 
 
 class ImportInspector(Inspector):
+    """
+    Checks for the presence of the syntactic construct `import`.
+    """
     __slots__: tuple[str] = ()
 
     def visit_Import(self: Self, node: ast.Import):
@@ -80,6 +92,9 @@ class ImportInspector(Inspector):
 
 
 class WhileInspector(Inspector):
+    """
+    Checks for the presence of the syntactic construct `while`.
+    """
     __slots__: tuple[str] = ()
 
     def visit_While(self: Self, node: ast.While):
@@ -87,6 +102,9 @@ class WhileInspector(Inspector):
 
 
 class YieldInspector(Inspector):
+    """
+    Checks for the presence of the syntactic construct `yield`.
+    """
     __slots__: tuple[str] = ()
 
     def visit_Yield(self: Self, node: ast.Yield):
@@ -97,6 +115,16 @@ class YieldInspector(Inspector):
 
 
 def main() -> tuple[int, str]:
+    """
+    Checks whether the path contains a valid `Starlark` AST.
+
+    Pylada Args:
+        `PATH`: the path to the input file
+
+    Returns:
+        `"True"`: if `True`
+        `"False"`: if `False`
+    """
     path = Path(r"%PATH%")
 
     text = path.read_text(

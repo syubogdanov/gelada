@@ -64,6 +64,10 @@ EXIT_FAILURE: int = 1
 
 
 class G001(ast.NodeTransformer):
+    """
+    `G001`: Removes type hints.
+    """
+
     __slots__: tuple[str] = ()
 
     def visit_AnyFunctionDef(self, node: AnyFunctionDef) -> AnyFunctionDef:
@@ -95,6 +99,10 @@ class G001(ast.NodeTransformer):
 
 
 class G002(ast.NodeTransformer):
+    """
+    `G002`:  Removes unused constants.
+    """
+
     __slots__: tuple[str] = ()
 
     @staticmethod
@@ -187,6 +195,16 @@ class G002(ast.NodeTransformer):
 
 
 def main() -> tuple[int, str]:
+    """
+    Normalizes the Python code.
+
+    Pylada Args:
+        `SRC`: the path to the input file
+        `DST`: the path to the output file
+
+    Returns:
+        -
+    """
     source = Path(r"%SRC%")
     destination = Path(r"%DST%")
 

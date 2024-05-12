@@ -31,6 +31,16 @@ EXIT_FAILURE: int = 1
 
 
 def main() -> tuple[int, str]:
+    """
+    Checks whether the path contains a valid `Python` AST.
+
+    Pylada Args:
+        `PATH`: the path to the input file
+
+    Returns:
+        `"True"`: if `True`
+        `"False"`: if `False`
+    """
     path = Path(r"%PATH%")
 
     text = path.read_text(

@@ -34,6 +34,13 @@ EXIT_FAILURE: int = 1
 
 
 def main() -> int:
+    """
+    Uninstalls the executable file from the user's system.
+
+    Returns:
+        - `0`: OK
+        - `1`: Something went wrong
+    """
     try:
         filename: str = "gelada.exe" if is_windows() else "gelada"
         installation = Path.home() / "bin" / filename

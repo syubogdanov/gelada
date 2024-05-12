@@ -25,4 +25,10 @@ import platform
 
 
 def is_windows() -> bool:
+    """
+    Checks whether the current platform is `Windows`.
+
+    Returns:
+        `True` if `Windows` else `False`
+    """
     return platform.system() == "Windows"

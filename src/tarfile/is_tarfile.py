@@ -29,6 +29,16 @@ EXIT_FAILURE: int = 1
 
 
 def main() -> tuple[int, str]:
+    """
+    Checks whether the path contains a valid `TAR` archive.
+
+    Pylada Args:
+        `PATH`: the path to the input file
+
+    Returns:
+        `"True"`: if `True`
+        `"False"`: if `False`
+    """
     try:
         path: str = r"%PATH%"
         ok = tarfile.is_tarfile(path)

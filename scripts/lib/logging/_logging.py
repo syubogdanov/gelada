@@ -29,12 +29,30 @@ from scripts.lib.ansi import yellow
 
 
 def error(detail: str) -> None:
+    """
+    Outputs messages with the `ERROR` tag to the standard output stream.
+
+    Args:
+        `detail`: the text to be written
+    """
     sys.stdout.write(f'{red("ERROR:")} {detail}\n')
 
 
 def info(detail: str) -> None:
+    """
+    Outputs messages with the `INFO` tag to the standard output stream.
+
+    Args:
+        `detail`: the text to be written
+    """
     sys.stdout.write(f'{green("INFO:")} {detail}\n')
 
 
 def warning(detail: str) -> None:
+    """
+    Outputs messages with the `WARNING` tag to the standard output stream.
+
+    Args:
+        `detail`: the text to be written
+    """
     sys.stdout.write(f'{yellow("WARNING:")} {detail}\n')
