@@ -62,7 +62,7 @@ constexpr double alpha = 0.30;
 
 namespace warnings::limit {
 
-constexpr const int dof = 3;
+constexpr const int dof = 2;
 
 }  // namespace warnings::limit
 
