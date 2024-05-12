@@ -105,8 +105,6 @@ TRACE: 0 hours 0 minutes 10 seconds
 Let's open the summary:
 
 ```json
-## summary.json
-
 {
     "summary": [
         {
@@ -163,8 +161,6 @@ TRACE: 0 hours 0 minutes 5 seconds
 What you get is:
 
 ```json
-## summary.json
-
 {
     "summary": [
         {
@@ -192,8 +188,6 @@ In addition to local directories and files, you can specify remote
 repositories. Currently, only GitHub and BitBucket are supported.
 
 ```yaml
-## workflow.yaml
-
 submissions:
     - name: Student A
       host: GitHub
@@ -211,8 +205,6 @@ Please, note that `repo` case matters. The only valid options are `GitHub` and
 ## Multiple Submissions
 
 ```yaml
-## workflow.yaml
-
 submissions:
     - name: Student A
       path: ~/some/path/a.py
@@ -223,8 +215,6 @@ submissions:
 ```
 
 ```json
-## summary.json
-
 {
     "summary": [
         {
