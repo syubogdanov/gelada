@@ -292,6 +292,9 @@ int main(int argc, char* argv[]) {
 
             pool.wait();
 
+            /* There may be fewer files than the user-specified DOF */
+            auto matching_size = std::min<std::size_t>(dof, rhs_files.size());
+
             for (std::size_t lidx = 0; lidx < lhs_files.size(); ++lidx) {
                 auto task = pool.submit_task([&, lidx]{
                     auto lhs = lhs_files[lidx];
@@ -302,8 +305,7 @@ int main(int argc, char* argv[]) {
                     std::vector<std::filesystem::path> candidates;
                     std::vector<double> probabilities;
 
-                    auto limit = std::min<std::size_t>(dof, rhs_files.size());
-                    for (std::size_t size = 1; size <= limit; ++size) {
+                    for (std::size_t size = 1; size <= matching_size; ++size) {
                         auto combinations = itertools::combinations(rhs_files.size(), size);
 
                         for (const auto& indices : combinations) {
