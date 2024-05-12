@@ -49,7 +49,7 @@
 
 namespace args {
 
-constexpr const int dof = 3;
+constexpr const int dof = 2;
 const int threads = threading::hardware::threads();
 
 }  // namespace args
